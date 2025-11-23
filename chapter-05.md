@@ -14,7 +14,7 @@ Authentication occurs on the frontend. The user logs in via the Internet Identit
 
 On the backend (Motoko), the actor receives the message. The system validates the signature and exposes the authenticated user via `msg.caller`.
 
-To demonstrate these concepts in a production context, we will architect **OpenPatron**, a decentralized content monetization platform. This application requires robust Identity, Tokenomics, and Subscription logic.
+To demonstrate these concepts in a production context, we will architect **OpenPatron**, a decentralized content monetization platform. This application requires robust Identity, Tokenomics, and Subscription logic. Its code can be found at [https://github.com/niklabh/motokobook/tree/main/OpenPatron](https://github.com/niklabh/motokobook/tree/main/OpenPatron)
 
 **Code Implementation: The WhoAmI Pattern**
 
