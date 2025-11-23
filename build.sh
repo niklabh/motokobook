@@ -29,8 +29,8 @@ EOF
 cat >> "$TEMP_FILE" << 'EOF'
 ## Table of Contents
 
-- **Preface**: Who This Book Is For
-- **Foreword**: By the Author
+- **Preface**
+- **Foreword**
 - **Chapter 1**: Introduction to the Internet Computer Protocol
 - **Chapter 2**: Motoko Fundamentals
 - **Chapter 3**: Type System and Safety
@@ -44,6 +44,7 @@ cat >> "$TEMP_FILE" << 'EOF'
 - **Chapter 12**: The Economics of Deployment
 - **Chapter 13**: The Service Nervous System (SNS)
 - **Chapter 14**: Troubleshooting and Best Practices
+- **Resources**: Official Documentation and Links
 
 ---
 
@@ -84,6 +85,7 @@ add_chapter "chapter-11.md" "Chapter 11"
 add_chapter "chapter-12.md" "Chapter 12"
 add_chapter "chapter-13.md" "Chapter 13"
 add_chapter "chapter-14.md" "Chapter 14"
+add_chapter "resources.md" "Resources"
 
 # Add final footer
 cat >> "$TEMP_FILE" << 'EOF'
