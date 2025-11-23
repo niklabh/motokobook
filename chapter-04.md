@@ -17,7 +17,7 @@ db.query('UPDATE counters SET value = value + 1');
 
 In Motoko, persistence is inherent:
 
-```motoko
+```js
 // Motoko (persistent)
 var counter : Nat = 0;
 
@@ -82,7 +82,7 @@ For the OpenPatron canister, which manages user subscriptions and content access
 - Use stable arrays or maps for user profiles and subscription lists.
 - Example:
 
-```motoko
+```js
 stable var users : HashMap.Principal, UserProfile> = HashMap.HashMap<Principal, UserProfile>(0, Principal.equal, Principal.hash);
 
 type UserProfile = {

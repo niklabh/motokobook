@@ -25,7 +25,7 @@ Understanding compiler errors is crucial for productive Motoko development. Here
 
 One of the most common mistakes in Motoko is adding a semicolon after the final expression in a block:
 
-```motoko
+```js
 // ❌ Wrong - semicolon makes function return ()
 public func getValue() : async Nat {
     let result = 42;
@@ -47,7 +47,7 @@ public func getValueCorrect() : async Nat {
 
 #### 12.1.2 Async/Await Mismatches
 
-```motoko
+```js
 // ❌ Wrong - missing async
 public shared func updateBalance(amount: Nat) : Nat {
     balance += amount;
@@ -77,7 +77,7 @@ public shared func callOther() : async Text {
 
 Sometimes the compiler needs explicit type annotations:
 
-```motoko
+```js
 // ❌ May fail type inference
 let items = [];
 items.add(1);
@@ -99,7 +99,7 @@ Since canisters run on a remote blockchain, traditional debugging approaches nee
 
 `Debug.print()` is your primary debugging tool during local development:
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 import Int "mo:base/Int";
 import Array "mo:base/Array";
@@ -130,7 +130,7 @@ actor {
 
 Create a logging system that can work both locally and in production:
 
-```motoko
+```js
 import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Text "mo:base/Text";
@@ -209,7 +209,7 @@ actor Logger {
 
 When a canister traps, it's crucial to understand why. Implement comprehensive error handling:
 
-```motoko
+```js
 import Result "mo:base/Result";
 import Error "mo:base/Error";
 import Debug "mo:base/Debug";
@@ -269,7 +269,7 @@ actor {
 
 Create query functions to inspect canister state during debugging:
 
-```motoko
+```js
 actor {
     stable var userCount : Nat = 0;
     var cache = HashMap.HashMap<Text, Text>(10, Text.equal, Text.hash);
@@ -309,7 +309,7 @@ Following established best practices will help you write maintainable, secure, a
 
 **Modularization:**
 
-```motoko
+```js
 // types.mo - Centralize type definitions
 module Types {
     public type User = {
@@ -368,7 +368,7 @@ actor Main {
 
 #### 12.3.2 Stable Memory Management
 
-```motoko
+```js
 import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
 import Array "mo:base/Array";
@@ -401,7 +401,7 @@ actor {
 
 Always monitor and manage cycles proactively:
 
-```motoko
+```js
 import Cycles "mo:base/ExperimentalCycles";
 import Error "mo:base/Error";
 
@@ -444,7 +444,7 @@ actor {
 
 **Authentication and Authorization:**
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Result "mo:base/Result";
@@ -512,7 +512,7 @@ actor SecureCanister {
 
 **Input Validation:**
 
-```motoko
+```js
 module Validation {
     import Text "mo:base/Text";
     import Nat "mo:base/Nat";
@@ -546,7 +546,7 @@ module Validation {
 
 Choose the right data structure for your use case:
 
-```motoko
+```js
 import HashMap "mo:base/HashMap";
 import RBTree "mo:base/RBTree";
 import Buffer "mo:base/Buffer";
@@ -569,7 +569,7 @@ actor {
 
 #### 12.4.2 Minimize State Access
 
-```motoko
+```js
 actor {
     stable var largeState : [User] = [];
     
@@ -600,7 +600,7 @@ actor {
 
 #### 12.4.3 Batch Operations
 
-```motoko
+```js
 actor {
     // ❌ Bad - multiple separate calls
     public shared func addUser(user: User) : async () {
@@ -623,7 +623,7 @@ actor {
 
 #### 12.4.4 Query vs Update Calls
 
-```motoko
+```js
 actor {
     stable var counter : Nat = 0;
     var cache : Text = "";
@@ -661,7 +661,7 @@ actor {
 
 #### 12.5.1 Unit Testing with Motoko Test
 
-```motoko
+```js
 // test/utils.test.mo
 import Debug "mo:base/Debug";
 import { test; suite } "mo:test";
@@ -716,7 +716,7 @@ dfx stop
 
 #### 12.6.1 Integer Overflow/Underflow
 
-```motoko
+```js
 import Nat "mo:base/Nat";
 import Int "mo:base/Int";
 
@@ -744,7 +744,7 @@ actor {
 
 #### 12.6.2 Memory Leaks
 
-```motoko
+```js
 actor {
     // ❌ Bad - unbounded growth
     var logs : [Text] = [];
@@ -768,7 +768,7 @@ actor {
 
 #### 12.6.3 Upgrade Compatibility
 
-```motoko
+```js
 actor {
     // Version 1
     stable var users_v1 : [(Principal, Text)] = [];
@@ -805,7 +805,7 @@ actor {
 
 #### 12.7.1 Health Checks
 
-```motoko
+```js
 actor HealthMonitor {
     stable var lastHealthCheck : Int = 0;
     stable var healthStatus : Text = "OK";
@@ -847,7 +847,7 @@ actor HealthMonitor {
 
 #### 12.7.2 Metrics Collection
 
-```motoko
+```js
 actor Metrics {
     stable var requestCount : Nat = 0;
     stable var errorCount : Nat = 0;

@@ -17,7 +17,7 @@ The Internet Computer solves this with **HTTP Outcalls**. When a canister makes 
 
 Let's add a feature to OpenPatron to verify a creator's identity using a Web2 API (e.g., checking a GitHub profile).
 
-```motoko
+```js
 import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 import Error "mo:base/Error";
@@ -105,7 +105,7 @@ actor OpenPatron {
 
 When sending data (POST), you must ensure the external server handles duplicate requests gracefully, as multiple nodes may send the request. Always use **Idempotency Keys**.
 
-```motoko
+```js
     public func sendNotification(message : Text) : async () {
         let url = "https://api.webhook.site/...";
         
@@ -135,7 +135,7 @@ The Internet Computer integrates directly with the Bitcoin network. Canisters ca
 
 The Management Canister exposes the Bitcoin API.
 
-```motoko
+```js
     type BitcoinNetwork = { #mainnet; #testnet };
     
     type Satoshi = Nat64;
@@ -160,7 +160,7 @@ The Management Canister exposes the Bitcoin API.
 
 Your canister can derive a Bitcoin address for itself (or for each user).
 
-```motoko
+```js
     public func getBitcoinAddress(userPrincipal : Principal) : async Text {
         // Derive a unique path for the user
         let derivationPath = [ Blob.toArray(Principal.toBlob(userPrincipal)) ];

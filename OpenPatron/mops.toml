@@ -1,0 +1,14 @@
+[package]
+name = "openpatron"
+version = "1.0.0"
+description = "A decentralized content monetization platform - Complete implementation from Mastering Motoko"
+repository = "https://github.com/niklabh/openpatron"
+keywords = ["subscription", "payments", "web3", "defi"]
+license = "MIT"
+
+[dependencies]
+base = "0.11.1"
+
+[toolchain]
+moc = "0.11.1"
+

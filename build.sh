@@ -8,7 +8,7 @@ set -e
 OUTPUT_FILE="mastering-motoko-complete.md"
 TEMP_FILE="temp_book.md"
 
-echo "Building 'Mastering ink!' book..."
+echo "Building 'Mastering Motoko!' book..."
 
 # Remove existing output file
 if [ -f "$OUTPUT_FILE" ]; then

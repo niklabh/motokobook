@@ -83,7 +83,7 @@ The standard Asset Canister handles this automatically. Every file uploaded is h
 
 If you want to serve dynamic data securely (e.g., an API endpoint), you must manually certify it using `CertifiedData`.
 
-```motoko
+```js
 import CertifiedData "mo:base/CertifiedData";
 import Blob "mo:base/Blob";
 

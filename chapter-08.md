@@ -47,7 +47,7 @@ This ensures that any interleaved messages see the updated (zero) balance.
 
 **Code Example: Safe Withdrawal**
 
-```motoko
+```js
 public shared (msg) func withdraw(amount : Nat) : async Text {
     let user = msg.caller;
     let currentBal = getBalance(user);
@@ -96,7 +96,7 @@ By explicitly labelling these phases in design docs, engineers remember to ask _
 
 Optimistic accounting works for simple subtraction, but larger workflows need **operation guards**. Track every in-flight withdrawal in a `pendingOps` map keyed by `(user, nonce)`:
 
-```motoko
+```js
 type Pending = {
     amount : Nat;
     expiresAt : Nat;

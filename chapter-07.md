@@ -10,7 +10,7 @@ Motoko provides the `Timer` module in the base library. It allows for both one-o
 
 OpenPatron initiates a recurring timer that runs every hour (or day). This "Cron Job" iterates through active subscriptions and processes payments.
 
-```motoko
+```js
 import Timer "mo:base/Timer";
 import Time "mo:base/Time";
 
@@ -65,7 +65,7 @@ When ultra-precise timing is required (e.g., daily charges at midnight UTC), rec
 
 Because the timer callback may run late, the queue must be idempotent. One practical model:
 
-```motoko
+```js
 type SubscriptionId = Nat32;
 type Timestamp = Nat64;
 

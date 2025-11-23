@@ -39,7 +39,7 @@ moc = "0.11.1"
 
 Once dependencies are installed, import them using the `mo:` prefix:
 
-```motoko
+```js
 import SHA256 "mo:sha256";
 import Map "mo:map/Map";
 import { nhash } "mo:map";
@@ -104,7 +104,7 @@ Testing on the Internet Computer requires different approaches than traditional 
 
 For pure Motoko functions (no state, no async), use the built-in `Debug.print` for simple assertions:
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 import Text "mo:base/Text";
 
@@ -124,7 +124,7 @@ module {
 
 For more sophisticated unit testing, use the `motoko-matchers` library:
 
-```motoko
+```js
 import Suite "mo:matchers/Suite";
 import T "mo:matchers/Testable";
 import M "mo:matchers/Matchers";
@@ -360,7 +360,7 @@ def test_fee_calculation_properties(amount, fee_percentage):
 
 #### 9.5.1 Debug.print for Runtime Inspection
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 
 actor {
@@ -466,7 +466,7 @@ jobs:
 5. **Realistic Data**: Use production-like data in tests to catch edge cases
 6. **Upgrade Testing**: Test canister upgrades to verify stable variables persist correctly
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 
 actor {

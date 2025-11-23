@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "canisters": {
+    "openpatron": {
+      "type": "motoko",
+      "main": "main.mo",
+      "declarations": {
+        "output": "declarations/openpatron",
+        "bindings": ["js", "ts"],
+        "node_compatibility": true
+      }
+    }
+  },
+  "defaults": {
+    "build": {
+      "packtool": "mops sources"
+    },
+    "replica": {
+      "subnet_type": "system"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    },
+    "ic": {
+      "providers": [
+        "https://icp-api.io"
+      ],
+      "type": "persistent"
+    }
+  }
+}
+

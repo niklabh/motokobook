@@ -8,7 +8,7 @@ OpenPatron does not "mint" new tokens; it manages the flow of existing tokens (e
 
 To interact with the official Ledger, we must define an **Actor Interface**. This is equivalent to an ABI (Application Binary Interface) in Solidity.
 
-```motoko
+```js
 // Abstract interface for the ICRC-1 Ledger
 type Account = { owner : Principal; subaccount : ?[Nat8] };
 type TransferArgs = {
@@ -53,7 +53,7 @@ This pattern is gas-efficient and secure, as OpenPatron has full cryptographic c
 
 Subaccounts are 32-byte blobs, so we can deterministically derive one per supporter without storing anything on-chain. The canonical approach is to hash a namespace prefix together with the caller's `Principal`.
 
-```motoko
+```js
 import Blob "mo:base/Blob";
 import Principal "mo:base/Principal";
 import SHA256 "mo:crypto/SHA/SHA256";
@@ -78,7 +78,7 @@ When `notify_deposit()` is called, OpenPatron must query the Ledger to confirm f
 3. Compare the returned amount with what the user claims.
 4. Only after a successful check, update internal accounting and emit an event.
 
-```motoko
+```js
 public shared ({ caller }) func notifyDeposit(expected : Nat) : async Nat {
   let account : Account = { owner = OpenPatronId; subaccount = ?Blob.toArray(supporterSubaccount(caller)) };
   let balance = await ledger.icrc1_balance_of(account);
@@ -94,7 +94,7 @@ This keeps OpenPatron stateless regarding incoming transfers and aligns with the
 
 Outbound transfers use the same actor reference but call `icrc1_transfer`. We treat refunds and scheduled payouts identically; only the `Account` destination differs.
 
-```motoko
+```js
 public shared ({ caller }) func payout(creator : Principal, amount : Nat) : async TransferResult {
   assert(hasRole(caller, #Admin));
   let args : TransferArgs = {

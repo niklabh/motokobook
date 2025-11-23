@@ -198,7 +198,6 @@ This work is intended for educational purposes and represents best practices as 
 - [Internet Computer Documentation](https://internetcomputer.org/docs)
 - [Motoko Language Guide](https://internetcomputer.org/docs/current/motoko/main/motoko)
 - [IC Developer Forum](https://forum.dfinity.org/)
-- [Motoko Playground](https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/)
 
 ## 🌟 Why This Book?
 

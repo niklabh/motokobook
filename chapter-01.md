@@ -318,7 +318,7 @@ Installing code for canister hello_world_frontend...
 
 If your `main.mo` contains a public function like:
 
-```motoko
+```js
 actor {
   public func greet(name : Text) : async Text {
     return "Hello, " # name # "!";

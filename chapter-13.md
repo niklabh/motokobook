@@ -69,7 +69,7 @@ In an SNS, token holders don't vote directly. Instead, they create **neurons** b
 
 Each neuron has several key attributes that determine its voting power:
 
-```motoko
+```js
 type Neuron = {
     // Unique identifier
     id : NeuronId;
@@ -120,7 +120,7 @@ Voting Power = Stake × Dissolve Delay Bonus × Age Bonus
 
 **Example Calculation:**
 
-```motoko
+```js
 // Alice: 1,000 tokens, 2-year lock, 1-year age
 Stake: 1,000
 Dissolve Bonus: 1 + (2 years / 8 years) = 1.25
@@ -171,7 +171,7 @@ SNS governance operates through **proposals**. Any neuron holder can submit a pr
 
 #### Proposal Lifecycle
 
-```motoko
+```js
 type ProposalStatus = {
     #Open;      // Currently accepting votes
     #Rejected;  // Failed to reach threshold
@@ -210,7 +210,7 @@ type Proposal = {
 
 #### Example: Submitting an Upgrade Proposal
 
-```motoko
+```js
 import SNS "mo:sns/Governance";
 import Blob "mo:base/Blob";
 
@@ -266,7 +266,7 @@ SNS implements multiple voting strategies to ensure efficient governance while p
 
 Token holders actively vote on each proposal:
 
-```motoko
+```js
 // Vote on a proposal
 public shared({ caller }) func vote(
     proposalId : ProposalId,
@@ -292,7 +292,7 @@ type Vote = {
 
 Neurons can "follow" other neurons, delegating their voting power:
 
-```motoko
+```js
 type Following = {
     followees : [NeuronId];  // List of neurons to follow
     topic : ?ProposalTopic;  // Specific topic or all topics
@@ -324,7 +324,7 @@ This creates a "liquid democracy" where:
 
 To incentivize participation, SNS distributes **voting rewards**:
 
-```motoko
+```js
 type VotingRewards = {
     // Total rewards pool (percentage of supply)
     annualRewardRate : Float;  // e.g., 10% APY
@@ -400,7 +400,7 @@ Vesting Schedules:
 
 #### Swap Configuration
 
-```motoko
+```js
 type SwapParameters = {
     // Fundraising goals
     minParticipants : Nat;        // e.g., 100 minimum participants
@@ -551,7 +551,7 @@ Once governed by an SNS, your canisters should expose governance-friendly interf
 
 #### Admin Functions Behind Governance
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 
 actor OpenPatron {
@@ -598,7 +598,7 @@ actor OpenPatron {
 
 Help token holders make informed decisions:
 
-```motoko
+```js
 // Provide metrics for governance proposals
 public query func getGovernanceMetrics() : async GovernanceMetrics {
     {

@@ -34,7 +34,7 @@ Understanding the cost structure is essential for sustainable deployment:
 
 Your canister must actively monitor its cycle balance to avoid running out of fuel:
 
-```motoko
+```js
 import Cycles "mo:base/ExperimentalCycles";
 import Debug "mo:base/Debug";
 
@@ -76,7 +76,7 @@ OpenPatron cannot operate for free forever. The canister must generate revenue t
 
 Implement a small platform fee on each transaction:
 
-```motoko
+```js
 import Result "mo:base/Result";
 import Nat "mo:base/Nat";
 
@@ -116,7 +116,7 @@ actor OpenPatron {
 
 Implement a system to automatically convert treasury funds into cycles:
 
-```motoko
+```js
 import Cycles "mo:base/ExperimentalCycles";
 import Timer "mo:base/Timer";
 import Principal "mo:base/Principal";
@@ -303,7 +303,7 @@ Successful deployment is just the beginning. Ongoing monitoring is essential.
 
 #### Implementing Canister Logging
 
-```motoko
+```js
 import Time "mo:base/Time";
 import Buffer "mo:base/Buffer";
 import Array "mo:base/Array";
@@ -378,7 +378,7 @@ Minimize cycle consumption without sacrificing functionality:
 
 Use the right data structure for your access patterns:
 
-```motoko
+```js
 // ❌ Inefficient: Array for frequent lookups
 private stable var users : [User] = [];
 
@@ -391,7 +391,7 @@ private var users = HashMap.HashMap<Principal, User>(10, Principal.equal, Princi
 
 Don't load data you don't need:
 
-```motoko
+```js
 // Only load necessary fields
 public query func getUserProfile(userId : Principal) : async ?UserProfile {
     switch (users.get(userId)) {
@@ -412,7 +412,7 @@ public query func getUserProfile(userId : Principal) : async ?UserProfile {
 
 Query calls don't consume consensus cycles:
 
-```motoko
+```js
 // ✅ Use query for read-only operations
 public query func getSubscriptions() : async [Subscription] {
     // No state modification
@@ -428,7 +428,7 @@ public shared func getSubscriptions() : async [Subscription] {
 
 Reduce overhead by batching:
 
-```motoko
+```js
 // ✅ Process multiple items in one call
 public shared func batchSubscribe(creatorIds : [Principal]) : async [Result.Result<(), Text>] {
     Array.map(creatorIds, func(id : Principal) : Result.Result<(), Text> {
@@ -446,7 +446,7 @@ If you retain control of your canister, plan your upgrade strategy carefully.
 
 Use `stable` keyword to preserve data across upgrades:
 
-```motoko
+```js
 actor OpenPatron {
     // ✅ Persists across upgrades
     private stable var subscriptionCount : Nat = 0;

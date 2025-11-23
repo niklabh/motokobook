@@ -409,7 +409,7 @@ Installing code for canister hello_world_frontend...
 
 If your `main.mo` contains a public function like:
 
-```motoko
+```js
 actor {
   public func greet(name : Text) : async Text {
     return "Hello, " # name # "!";
@@ -646,7 +646,7 @@ Before building sophisticated decentralized applications, you must master Motoko
 
 Every programming journey begins with a simple "Hello, World!" program. In Motoko, this introduces you to the actor model and basic output.
 
-```motoko
+```js
 actor {
     public func greet(name : Text) : async Text {
         return "Hello, " # name # "!";
@@ -669,7 +669,7 @@ Motoko's syntax is designed to be familiar yet precise. Understanding these foun
 
 Motoko supports both single-line and multi-line comments:
 
-```motoko
+```js
 // This is a single-line comment
 
 /* This is a 
@@ -683,7 +683,7 @@ public func example() : async () {};
 
 Motoko is an **expression-oriented language**—nearly everything evaluates to a value. Code blocks return the value of their last expression.
 
-```motoko
+```js
 let result = {
     let x = 10;
     let y = 20;
@@ -706,7 +706,7 @@ let noValue = {
 - **Constants**: Can use UPPER_CASE by convention
 - **Reserved keywords**: `actor`, `async`, `await`, `break`, `case`, `catch`, `class`, `continue`, `debug`, `else`, `false`, `for`, `func`, `if`, `in`, `import`, `let`, `loop`, `module`, `null`, `object`, `public`, `private`, `return`, `shared`, `switch`, `true`, `try`, `type`, `var`, `while`
 
-```motoko
+```js
 let userName = "Alice";        // Valid
 let user_name = "Bob";         // Valid
 let MAX_RETRIES = 3;           // Valid
@@ -721,7 +721,7 @@ Motoko's type system is its greatest strength, providing compile-time guarantees
 
 #### Numeric Types
 
-```motoko
+```js
 // Natural numbers (non-negative, unbounded)
 let count : Nat = 42;
 let large : Nat = 1_000_000_000;
@@ -754,7 +754,7 @@ let scientific : Float = 1.23e-4;
 
 #### Boolean Type
 
-```motoko
+```js
 let isActive : Bool = true;
 let hasPermission : Bool = false;
 
@@ -765,7 +765,7 @@ let inverted = not isActive;  // false
 
 #### Text and Character Types
 
-```motoko
+```js
 // Text (UTF-8 strings)
 let greeting : Text = "Hello, Motoko!";
 let emoji : Text = "🚀";
@@ -781,7 +781,7 @@ let fullName = "Alice" # " " # "Smith";  // "Alice Smith"
 
 #### Special Types
 
-```motoko
+```js
 // Blob (immutable byte arrays)
 let data : Blob = "\00\01\02\03";
 let empty : Blob = "";
@@ -800,7 +800,7 @@ let nothing : () = ();
 
 Arrays in Motoko are **immutable by default** and have fixed size.
 
-```motoko
+```js
 // Immutable array
 let numbers : [Nat] = [1, 2, 3, 4, 5];
 let names : [Text] = ["Alice", "Bob", "Charlie"];
@@ -823,7 +823,7 @@ let indices = Array.tabulate<Nat>(10, func(i) = i);  // [0,1,2,...,9]
 
 Tuples are anonymous records with positional fields.
 
-```motoko
+```js
 // Simple tuple
 let coordinates : (Float, Float) = (10.5, 20.3);
 let person : (Text, Nat) = ("Alice", 30);
@@ -843,7 +843,7 @@ let complex : (Nat, (Text, Bool)) = (42, ("active", true));
 
 Records are structured types with named fields.
 
-```motoko
+```js
 // Type definition
 type User = {
     name : Text;
@@ -880,7 +880,7 @@ myCounter.count := myCounter.count + 1;
 
 Variants are tagged unions (sum types), similar to enums in other languages but more powerful.
 
-```motoko
+```js
 // Simple variant (enum-like)
 type Color = {
     #Red;
@@ -916,7 +916,7 @@ let payment = #CreditCard({
 
 The `Option` type represents values that may or may not exist, eliminating null pointer errors.
 
-```motoko
+```js
 // Option type
 type OptionalNat = ?Nat;
 
@@ -943,7 +943,7 @@ let alice = { name = "Alice"; email = ?"alice@example.com" };
 
 Functions are first-class values with explicit types.
 
-```motoko
+```js
 // Function type signature
 type MathOperation = (Nat, Nat) -> Nat;
 
@@ -968,7 +968,7 @@ let toString : Transformer<Nat, Text> = Nat.toText;
 
 Async types represent values that will be available in the future, essential for inter-canister calls.
 
-```motoko
+```js
 // Async function
 public func fetchData() : async Nat {
     // Simulated async operation
@@ -986,7 +986,7 @@ public func processData() : async Text {
 
 Generics enable code reuse while maintaining type safety.
 
-```motoko
+```js
 // Generic function
 func identity<T>(x : T) : T {
     x;
@@ -1020,7 +1020,7 @@ Declarations introduce new names into scope. Motoko distinguishes between immuta
 
 The default and recommended way to declare values.
 
-```motoko
+```js
 let name = "Alice";
 let age = 30;
 let isActive = true;
@@ -1040,7 +1040,7 @@ let {name = userName; age = userAge} = {name = "Bob"; age = 25};
 
 Use `var` for values that need to change. Mutation uses the `:=` operator.
 
-```motoko
+```js
 var counter = 0;
 counter := counter + 1;  // 1
 counter := counter * 2;  // 2
@@ -1070,7 +1070,7 @@ account.balance := account.balance - 100;
 
 Functions can be declared in multiple ways.
 
-```motoko
+```js
 // Named function (private by default)
 func add(a : Nat, b : Nat) : Nat {
     a + b;
@@ -1106,7 +1106,7 @@ func map<A, B>(arr : [A], f : A -> B) : [B] {
 
 Define custom types for better code organization.
 
-```motoko
+```js
 // Type alias
 type UserId = Principal;
 type Balance = Nat;
@@ -1140,7 +1140,7 @@ Motoko provides familiar control flow constructs, all designed as expressions th
 
 The `if-else` construct is an expression that must return the same type from both branches.
 
-```motoko
+```js
 // Simple conditional
 let status = if (balance > 0) "Active" else "Inactive";
 
@@ -1176,7 +1176,7 @@ Motoko supports several looping constructs for iteration.
 
 Iterate over collections using iterators.
 
-```motoko
+```js
 import Iter "mo:base/Iter";
 
 // Iterate over array
@@ -1206,7 +1206,7 @@ for (char in text.chars()) {
 
 Execute code while a condition is true.
 
-```motoko
+```js
 var counter = 0;
 while (counter < 5) {
     Debug.print(Nat.toText(counter));
@@ -1227,7 +1227,7 @@ while (running) {
 
 Execute code at least once, then check condition.
 
-```motoko
+```js
 var attempts = 0;
 loop {
     attempts += 1;
@@ -1237,7 +1237,7 @@ loop {
 
 #### Loop with Break and Continue
 
-```motoko
+```js
 // Infinite loop with break
 var count = 0;
 loop {
@@ -1256,7 +1256,7 @@ loop {
 
 The `switch` statement provides exhaustive pattern matching, ensuring all cases are handled.
 
-```motoko
+```js
 // Basic switch on variant
 type Status = { #Active; #Suspended; #Closed };
 
@@ -1324,7 +1324,7 @@ An actor in Motoko represents a **canister**—a smart contract running on the I
 - Processes messages one at a time (no concurrency issues)
 - Can be upgraded while preserving state
 
-```motoko
+```js
 // Simple actor
 actor Counter {
     var count : Nat = 0;
@@ -1342,7 +1342,7 @@ actor Counter {
 
 ### 2.6.2 Public and Private Functions
 
-```motoko
+```js
 actor MyActor {
     var privateState : Nat = 0;
     
@@ -1373,7 +1373,7 @@ actor MyActor {
 
 All inter-actor communication is asynchronous. Use `await` to wait for async results.
 
-```motoko
+```js
 actor AsyncExample {
     // Call another actor
     public func callOtherActor() : async Nat {
@@ -1412,7 +1412,7 @@ actor AsyncExample {
 
 Actor classes are templates for creating multiple actor instances.
 
-```motoko
+```js
 // Actor class definition
 actor class Counter(initValue : Nat) {
     var count = initValue;
@@ -1442,7 +1442,7 @@ actor Manager {
 
 Access the caller's principal in shared functions.
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 
 actor Auth {
@@ -1472,7 +1472,7 @@ Managing mutable state is crucial for building stateful applications. Motoko pro
 
 ### 2.7.1 Mutable Variables
 
-```motoko
+```js
 actor StateExample {
     // Mutable scalar
     var counter : Nat = 0;
@@ -1507,7 +1507,7 @@ actor StateExample {
 
 Use specialized data structures for efficient mutable collections.
 
-```motoko
+```js
 import Buffer "mo:base/Buffer";
 import HashMap "mo:base/HashMap";
 import Hash "mo:base/Hash";
@@ -1542,7 +1542,7 @@ actor Collections {
 
 Pattern for safe state transitions.
 
-```motoko
+```js
 actor StateMachine {
     type State = {
         #Idle;
@@ -1589,7 +1589,7 @@ Messaging is how actors communicate. Understanding message types and patterns is
 
 ### 2.8.1 Update vs Query Messages
 
-```motoko
+```js
 actor Messaging {
     var data : Nat = 0;
     
@@ -1616,7 +1616,7 @@ actor Messaging {
 
 Use one-way messages when you don't need a response.
 
-```motoko
+```js
 actor Logger {
     var logs : [Text] = [];
     
@@ -1630,7 +1630,7 @@ actor Logger {
 
 ### 2.8.3 Inter-Canister Calls
 
-```motoko
+```js
 actor Caller {
     // Define remote actor interface
     type RemoteActor = actor {
@@ -1654,7 +1654,7 @@ actor Caller {
 
 ### 2.8.4 Error Handling in Messages
 
-```motoko
+```js
 actor ErrorHandling {
     public func riskyOperation() : async Result.Result<Nat, Text> {
         try {
@@ -1676,7 +1676,7 @@ Modules organize code into reusable, composable units. Motoko supports both loca
 
 ### 2.9.1 Defining Modules
 
-```motoko
+```js
 // MathUtils.mo
 module {
     public func add(a : Nat, b : Nat) : Nat {
@@ -1695,7 +1695,7 @@ module {
 
 ### 2.9.2 Importing Local Modules
 
-```motoko
+```js
 // Main.mo
 import MathUtils "./MathUtils";
 
@@ -1712,7 +1712,7 @@ actor {
 
 The Motoko base library provides essential utilities.
 
-```motoko
+```js
 import Array "mo:base/Array";
 import Nat "mo:base/Nat";
 import Text "mo:base/Text";
@@ -1743,7 +1743,7 @@ actor Example {
 
 ### 2.9.4 Module Patterns
 
-```motoko
+```js
 // Nested modules
 module OuterModule {
     public module InnerModule {
@@ -1779,7 +1779,7 @@ Pattern matching is one of Motoko's most powerful features, enabling elegant and
 
 ### 2.10.1 Basic Patterns
 
-```motoko
+```js
 // Literal patterns
 func isZero(n : Nat) : Bool {
     switch (n) {
@@ -1799,7 +1799,7 @@ func describe(opt : ?Nat) : Text {
 
 ### 2.10.2 Tuple Patterns
 
-```motoko
+```js
 func swapIfNeeded(pair : (Nat, Nat)) : (Nat, Nat) {
     switch (pair) {
         case ((a, b)) if (a > b) (b, a);
@@ -1818,7 +1818,7 @@ func processNested(data : (Nat, (Text, Bool))) : Text {
 
 ### 2.10.3 Record Patterns
 
-```motoko
+```js
 type User = {
     name : Text;
     age : Nat;
@@ -1842,7 +1842,7 @@ func getUsername(user : User) : Text {
 
 ### 2.10.4 Variant Patterns
 
-```motoko
+```js
 type Result<T, E> = {
     #Ok : T;
     #Err : E;
@@ -1873,7 +1873,7 @@ func processPayment(payment : Payment) : Text {
 
 ### 2.10.5 Array Patterns
 
-```motoko
+```js
 func describeList(list : [Nat]) : Text {
     switch (list.size()) {
         case (0) "Empty list";
@@ -1887,7 +1887,7 @@ func describeList(list : [Nat]) : Text {
 
 Use guards (`if`) for additional conditions.
 
-```motoko
+```js
 func categorize(n : Int) : Text {
     switch (n) {
         case (x) if (x < 0) "Negative";
@@ -1919,7 +1919,7 @@ Robust error handling is critical for production applications. Motoko provides m
 
 Handle runtime errors with try-catch blocks.
 
-```motoko
+```js
 import Error "mo:base/Error";
 
 actor ErrorHandling {
@@ -1957,7 +1957,7 @@ actor ErrorHandling {
 
 Use the `Result` type for explicit error handling.
 
-```motoko
+```js
 import Result "mo:base/Result";
 
 type Result<T, E> = Result.Result<T, E>;
@@ -2008,7 +2008,7 @@ actor ResultExample {
 
 Use `Option` for operations that may not return a value.
 
-```motoko
+```js
 import Option "mo:base/Option";
 
 actor OptionExample {
@@ -2053,7 +2053,7 @@ actor OptionExample {
 
 Use assertions for development and invariant checking.
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 
 actor Assertions {
@@ -2087,7 +2087,7 @@ actor Assertions {
 
 Chain error-prone operations cleanly.
 
-```motoko
+```js
 actor ErrorPropagation {
     type Error = { #DatabaseError; #NetworkError; #ValidationError };
     
@@ -2146,7 +2146,7 @@ Unlike traditional smart contracts, Motoko provides **orthogonal persistence**�
 
 Mark variables as `stable` to persist them across canister upgrades.
 
-```motoko
+```js
 actor PersistentCounter {
     stable var count : Nat = 0;
     stable var users : [Text] = [];
@@ -2190,7 +2190,7 @@ Only certain types can be marked as stable:
 
 - ❌ Objects with methods
 
-```motoko
+```js
 actor StableTypes {
     type StableUser = {
         name : Text;
@@ -2219,7 +2219,7 @@ actor StableTypes {
 
 Use `preupgrade` and `postupgrade` hooks for complex state migration.
 
-```motoko
+```js
 import Buffer "mo:base/Buffer";
 import HashMap "mo:base/HashMap";
 
@@ -2273,7 +2273,7 @@ actor UpgradeExample {
 
 Handle schema changes gracefully during upgrades.
 
-```motoko
+```js
 actor VersionedStorage {
     // Version 1 schema
     type UserV1 = {
@@ -2317,7 +2317,7 @@ Motoko's garbage collector runs incrementally during message execution:
 - **Generational**: Optimizes for short-lived objects
 - **Compacting**: Reduces fragmentation
 
-```motoko
+```js
 actor GCExample {
     // Short-lived objects (collected quickly)
     public func processData() : async Nat {
@@ -2341,7 +2341,7 @@ actor GCExample {
 
 Best practices for memory efficiency:
 
-```motoko
+```js
 import Buffer "mo:base/Buffer";
 
 actor Optimized {
@@ -2387,7 +2387,7 @@ actor Optimized {
 
 ### 2.13.3 Monitoring Memory Usage
 
-```motoko
+```js
 import Prim "mo:prim";
 
 actor MemoryMonitor {
@@ -2429,7 +2429,7 @@ With orthogonal persistence:
 
 - ✅ Consistency guaranteed
 
-```motoko
+```js
 actor AutoPersist {
     // All these persist automatically!
     var counter : Nat = 0;
@@ -2452,7 +2452,7 @@ actor AutoPersist {
 
 ### 2.14.2 Stable vs Regular Variables
 
-```motoko
+```js
 actor PersistenceTypes {
     // Regular variable: persists between calls, 
     // but NOT across upgrades
@@ -2476,7 +2476,7 @@ actor PersistenceTypes {
 
 ### 2.14.3 Persistence Lifecycle
 
-```motoko
+```js
 actor Lifecycle {
     var callCount : Nat = 0;
     stable var totalCalls : Nat = 0;
@@ -2501,7 +2501,7 @@ actor Lifecycle {
 
 ### 2.14.4 Best Practices
 
-```motoko
+```js
 actor BestPractices {
     // ✅ Use stable for critical data
     stable var userBalances : [(Principal, Nat)] = [];
@@ -2592,7 +2592,7 @@ This forces the developer to handle the "missing" case explicitly using pattern 
 
 **Code Snippet: Pattern Matching Options**
 
-```motoko
+```js
 let bio : ?Text = null;
 
 // The compiler forces us to handle both cases
@@ -2616,7 +2616,7 @@ These types are designed to prevent common errors, such as overflow in numerics 
 
 **Example:**
 
-```motoko
+```js
 let isActive : Bool = true;
 let username : Text = "motoko_dev";
 let userId : Principal = Principal.fromText("aaaaa-aa");
@@ -2632,7 +2632,7 @@ Records are structural types that group named fields.
 
 **Example:**
 
-```motoko
+```js
 type Person = {
   name : Text;
   age : Nat;
@@ -2649,7 +2649,7 @@ Variants represent tagged unions, useful for enumerations or error handling.
 
 **Example:**
 
-```motoko
+```js
 type Result<T, E> = {
   #Ok : T;
   #Err : E;
@@ -2665,7 +2665,7 @@ Arrays can be immutable or mutable, and tuples are anonymous records.
 
 **Example:**
 
-```motoko
+```js
 let numbers : [Nat] = [1, 2, 3];
 let mutableArray : [var Nat] = [var 4, 5, 6];
 
@@ -2678,7 +2678,7 @@ Type aliases improve code readability without creating new types.
 
 **Example:**
 
-```motoko
+```js
 type Username = Text;
 type Age = Nat;
 
@@ -2694,7 +2694,7 @@ Generics allow functions and classes to work with any type.
 
 **Example:**
 
-```motoko
+```js
 func identity<T>(x : T) : T {
   return x;
 };
@@ -2715,7 +2715,7 @@ Motoko infers types where possible, reducing annotations.
 
 **Example:**
 
-```motoko
+```js
 let ar = [1, 2, 3]; // Inferred as [Nat]
 let doubled = Array.map(ar, func x { x * 2 }); // Inferred types
 ```
@@ -2746,7 +2746,7 @@ db.query('UPDATE counters SET value = value + 1');
 
 In Motoko, persistence is inherent:
 
-```motoko
+```js
 // Motoko (persistent)
 var counter : Nat = 0;
 
@@ -2811,7 +2811,7 @@ For the OpenPatron canister, which manages user subscriptions and content access
 - Use stable arrays or maps for user profiles and subscription lists.
 - Example:
 
-```motoko
+```js
 stable var users : HashMap.Principal, UserProfile> = HashMap.HashMap<Principal, UserProfile>(0, Principal.equal, Principal.hash);
 
 type UserProfile = {
@@ -2858,7 +2858,7 @@ To demonstrate these concepts in a production context, we will architect **OpenP
 
 This pattern is essential for verifying that the authentication flow is functioning correctly.
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 
 actor OpenPatron {
@@ -2896,7 +2896,7 @@ For storing user profiles in OpenPatron, we'll use `StableBTreeMap` from the bas
 
 Here's how to set it up:
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 import StableBTreeMap "mo:base/StableBTreeMap";
 import Text "mo:base/Text";
@@ -2939,7 +2939,7 @@ This allows users to register a profile associated with their Principal.
 
 To ensure only authenticated users can perform certain actions, check against the anonymous Principal.
 
-```motoko
+```js
 import Error "mo:base/Error";
 import Principal "mo:base/Principal";
 
@@ -2960,7 +2960,7 @@ public shared(msg) func createContent() : async () {
 
 In OpenPatron, users can have roles like 'patron', 'creator', or 'admin'. Extend the Profile type:
 
-```motoko
+```js
 type Role = { #Patron; #Creator; #Admin };
 
 type Profile = {
@@ -3030,7 +3030,7 @@ For anonymous access, create an actor with the anonymous identity.
 
 Putting it all together, here's a more complete actor for OpenPatron's identity system, incorporating profiles, roles, and access controls. We've added profile update and role assignment functions.
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 import StableBTreeMap "mo:base/StableBTreeMap";
 import Text "mo:base/Text";
@@ -3180,7 +3180,7 @@ OpenPatron does not "mint" new tokens; it manages the flow of existing tokens (e
 
 To interact with the official Ledger, we must define an **Actor Interface**. This is equivalent to an ABI (Application Binary Interface) in Solidity.
 
-```motoko
+```js
 // Abstract interface for the ICRC-1 Ledger
 type Account = { owner : Principal; subaccount : ?[Nat8] };
 type TransferArgs = {
@@ -3225,7 +3225,7 @@ This pattern is gas-efficient and secure, as OpenPatron has full cryptographic c
 
 Subaccounts are 32-byte blobs, so we can deterministically derive one per supporter without storing anything on-chain. The canonical approach is to hash a namespace prefix together with the caller's `Principal`.
 
-```motoko
+```js
 import Blob "mo:base/Blob";
 import Principal "mo:base/Principal";
 import SHA256 "mo:crypto/SHA/SHA256";
@@ -3250,7 +3250,7 @@ When `notify_deposit()` is called, OpenPatron must query the Ledger to confirm f
 3. Compare the returned amount with what the user claims.
 4. Only after a successful check, update internal accounting and emit an event.
 
-```motoko
+```js
 public shared ({ caller }) func notifyDeposit(expected : Nat) : async Nat {
   let account : Account = { owner = OpenPatronId; subaccount = ?Blob.toArray(supporterSubaccount(caller)) };
   let balance = await ledger.icrc1_balance_of(account);
@@ -3266,7 +3266,7 @@ This keeps OpenPatron stateless regarding incoming transfers and aligns with the
 
 Outbound transfers use the same actor reference but call `icrc1_transfer`. We treat refunds and scheduled payouts identically; only the `Account` destination differs.
 
-```motoko
+```js
 public shared ({ caller }) func payout(creator : Principal, amount : Nat) : async TransferResult {
   assert(hasRole(caller, #Admin));
   let args : TransferArgs = {
@@ -3328,7 +3328,7 @@ Motoko provides the `Timer` module in the base library. It allows for both one-o
 
 OpenPatron initiates a recurring timer that runs every hour (or day). This "Cron Job" iterates through active subscriptions and processes payments.
 
-```motoko
+```js
 import Timer "mo:base/Timer";
 import Time "mo:base/Time";
 
@@ -3383,7 +3383,7 @@ When ultra-precise timing is required (e.g., daily charges at midnight UTC), rec
 
 Because the timer callback may run late, the queue must be idempotent. One practical model:
 
-```motoko
+```js
 type SubscriptionId = Nat32;
 type Timestamp = Nat64;
 
@@ -3486,7 +3486,7 @@ This ensures that any interleaved messages see the updated (zero) balance.
 
 **Code Example: Safe Withdrawal**
 
-```motoko
+```js
 public shared (msg) func withdraw(amount : Nat) : async Text {
     let user = msg.caller;
     let currentBal = getBalance(user);
@@ -3535,7 +3535,7 @@ By explicitly labelling these phases in design docs, engineers remember to ask _
 
 Optimistic accounting works for simple subtraction, but larger workflows need **operation guards**. Track every in-flight withdrawal in a `pendingOps` map keyed by `(user, nonce)`:
 
-```motoko
+```js
 type Pending = {
     amount : Nat;
     expiresAt : Nat;
@@ -3596,7 +3596,7 @@ The Internet Computer solves this with **HTTP Outcalls**. When a canister makes 
 
 Let's add a feature to OpenPatron to verify a creator's identity using a Web2 API (e.g., checking a GitHub profile).
 
-```motoko
+```js
 import Text "mo:base/Text";
 import Blob "mo:base/Blob";
 import Error "mo:base/Error";
@@ -3684,7 +3684,7 @@ actor OpenPatron {
 
 When sending data (POST), you must ensure the external server handles duplicate requests gracefully, as multiple nodes may send the request. Always use **Idempotency Keys**.
 
-```motoko
+```js
     public func sendNotification(message : Text) : async () {
         let url = "https://api.webhook.site/...";
         
@@ -3714,7 +3714,7 @@ The Internet Computer integrates directly with the Bitcoin network. Canisters ca
 
 The Management Canister exposes the Bitcoin API.
 
-```motoko
+```js
     type BitcoinNetwork = { #mainnet; #testnet };
     
     type Satoshi = Nat64;
@@ -3739,7 +3739,7 @@ The Management Canister exposes the Bitcoin API.
 
 Your canister can derive a Bitcoin address for itself (or for each user).
 
-```motoko
+```js
     public func getBitcoinAddress(userPrincipal : Principal) : async Text {
         // Derive a unique path for the user
         let derivationPath = [ Blob.toArray(Principal.toBlob(userPrincipal)) ];
@@ -3874,7 +3874,7 @@ The standard Asset Canister handles this automatically. Every file uploaded is h
 
 If you want to serve dynamic data securely (e.g., an API endpoint), you must manually certify it using `CertifiedData`.
 
-```motoko
+```js
 import CertifiedData "mo:base/CertifiedData";
 import Blob "mo:base/Blob";
 
@@ -3961,7 +3961,7 @@ moc = "0.11.1"
 
 Once dependencies are installed, import them using the `mo:` prefix:
 
-```motoko
+```js
 import SHA256 "mo:sha256";
 import Map "mo:map/Map";
 import { nhash } "mo:map";
@@ -4026,7 +4026,7 @@ Testing on the Internet Computer requires different approaches than traditional 
 
 For pure Motoko functions (no state, no async), use the built-in `Debug.print` for simple assertions:
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 import Text "mo:base/Text";
 
@@ -4046,7 +4046,7 @@ module {
 
 For more sophisticated unit testing, use the `motoko-matchers` library:
 
-```motoko
+```js
 import Suite "mo:matchers/Suite";
 import T "mo:matchers/Testable";
 import M "mo:matchers/Matchers";
@@ -4282,7 +4282,7 @@ def test_fee_calculation_properties(amount, fee_percentage):
 
 #### 9.5.1 Debug.print for Runtime Inspection
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 
 actor {
@@ -4388,7 +4388,7 @@ jobs:
 5. **Realistic Data**: Use production-like data in tests to catch edge cases
 6. **Upgrade Testing**: Test canister upgrades to verify stable variables persist correctly
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 
 actor {
@@ -4484,7 +4484,7 @@ Understanding the cost structure is essential for sustainable deployment:
 
 Your canister must actively monitor its cycle balance to avoid running out of fuel:
 
-```motoko
+```js
 import Cycles "mo:base/ExperimentalCycles";
 import Debug "mo:base/Debug";
 
@@ -4526,7 +4526,7 @@ OpenPatron cannot operate for free forever. The canister must generate revenue t
 
 Implement a small platform fee on each transaction:
 
-```motoko
+```js
 import Result "mo:base/Result";
 import Nat "mo:base/Nat";
 
@@ -4566,7 +4566,7 @@ actor OpenPatron {
 
 Implement a system to automatically convert treasury funds into cycles:
 
-```motoko
+```js
 import Cycles "mo:base/ExperimentalCycles";
 import Timer "mo:base/Timer";
 import Principal "mo:base/Principal";
@@ -4753,7 +4753,7 @@ Successful deployment is just the beginning. Ongoing monitoring is essential.
 
 #### Implementing Canister Logging
 
-```motoko
+```js
 import Time "mo:base/Time";
 import Buffer "mo:base/Buffer";
 import Array "mo:base/Array";
@@ -4828,7 +4828,7 @@ Minimize cycle consumption without sacrificing functionality:
 
 Use the right data structure for your access patterns:
 
-```motoko
+```js
 // ❌ Inefficient: Array for frequent lookups
 private stable var users : [User] = [];
 
@@ -4841,7 +4841,7 @@ private var users = HashMap.HashMap<Principal, User>(10, Principal.equal, Princi
 
 Don't load data you don't need:
 
-```motoko
+```js
 // Only load necessary fields
 public query func getUserProfile(userId : Principal) : async ?UserProfile {
     switch (users.get(userId)) {
@@ -4862,7 +4862,7 @@ public query func getUserProfile(userId : Principal) : async ?UserProfile {
 
 Query calls don't consume consensus cycles:
 
-```motoko
+```js
 // ✅ Use query for read-only operations
 public query func getSubscriptions() : async [Subscription] {
     // No state modification
@@ -4878,7 +4878,7 @@ public shared func getSubscriptions() : async [Subscription] {
 
 Reduce overhead by batching:
 
-```motoko
+```js
 // ✅ Process multiple items in one call
 public shared func batchSubscribe(creatorIds : [Principal]) : async [Result.Result<(), Text>] {
     Array.map(creatorIds, func(id : Principal) : Result.Result<(), Text> {
@@ -4896,7 +4896,7 @@ If you retain control of your canister, plan your upgrade strategy carefully.
 
 Use `stable` keyword to preserve data across upgrades:
 
-```motoko
+```js
 actor OpenPatron {
     // ✅ Persists across upgrades
     private stable var subscriptionCount : Nat = 0;
@@ -5046,7 +5046,7 @@ In an SNS, token holders don't vote directly. Instead, they create **neurons** b
 
 Each neuron has several key attributes that determine its voting power:
 
-```motoko
+```js
 type Neuron = {
     // Unique identifier
     id : NeuronId;
@@ -5097,7 +5097,7 @@ Voting Power = Stake × Dissolve Delay Bonus × Age Bonus
 
 **Example Calculation:**
 
-```motoko
+```js
 // Alice: 1,000 tokens, 2-year lock, 1-year age
 Stake: 1,000
 Dissolve Bonus: 1 + (2 years / 8 years) = 1.25
@@ -5148,7 +5148,7 @@ SNS governance operates through **proposals**. Any neuron holder can submit a pr
 
 #### Proposal Lifecycle
 
-```motoko
+```js
 type ProposalStatus = {
     #Open;      // Currently accepting votes
     #Rejected;  // Failed to reach threshold
@@ -5187,7 +5187,7 @@ type Proposal = {
 
 #### Example: Submitting an Upgrade Proposal
 
-```motoko
+```js
 import SNS "mo:sns/Governance";
 import Blob "mo:base/Blob";
 
@@ -5243,7 +5243,7 @@ SNS implements multiple voting strategies to ensure efficient governance while p
 
 Token holders actively vote on each proposal:
 
-```motoko
+```js
 // Vote on a proposal
 public shared({ caller }) func vote(
     proposalId : ProposalId,
@@ -5269,7 +5269,7 @@ type Vote = {
 
 Neurons can "follow" other neurons, delegating their voting power:
 
-```motoko
+```js
 type Following = {
     followees : [NeuronId];  // List of neurons to follow
     topic : ?ProposalTopic;  // Specific topic or all topics
@@ -5301,7 +5301,7 @@ This creates a "liquid democracy" where:
 
 To incentivize participation, SNS distributes **voting rewards**:
 
-```motoko
+```js
 type VotingRewards = {
     // Total rewards pool (percentage of supply)
     annualRewardRate : Float;  // e.g., 10% APY
@@ -5377,7 +5377,7 @@ Vesting Schedules:
 
 #### Swap Configuration
 
-```motoko
+```js
 type SwapParameters = {
     // Fundraising goals
     minParticipants : Nat;        // e.g., 100 minimum participants
@@ -5528,7 +5528,7 @@ Once governed by an SNS, your canisters should expose governance-friendly interf
 
 #### Admin Functions Behind Governance
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 
 actor OpenPatron {
@@ -5575,7 +5575,7 @@ actor OpenPatron {
 
 Help token holders make informed decisions:
 
-```motoko
+```js
 // Provide metrics for governance proposals
 public query func getGovernanceMetrics() : async GovernanceMetrics {
     {
@@ -5814,7 +5814,7 @@ Understanding compiler errors is crucial for productive Motoko development. Here
 
 One of the most common mistakes in Motoko is adding a semicolon after the final expression in a block:
 
-```motoko
+```js
 // ❌ Wrong - semicolon makes function return ()
 public func getValue() : async Nat {
     let result = 42;
@@ -5836,7 +5836,7 @@ public func getValueCorrect() : async Nat {
 
 #### 12.1.2 Async/Await Mismatches
 
-```motoko
+```js
 // ❌ Wrong - missing async
 public shared func updateBalance(amount: Nat) : Nat {
     balance += amount;
@@ -5866,7 +5866,7 @@ public shared func callOther() : async Text {
 
 Sometimes the compiler needs explicit type annotations:
 
-```motoko
+```js
 // ❌ May fail type inference
 let items = [];
 items.add(1);
@@ -5888,7 +5888,7 @@ Since canisters run on a remote blockchain, traditional debugging approaches nee
 
 `Debug.print()` is your primary debugging tool during local development:
 
-```motoko
+```js
 import Debug "mo:base/Debug";
 import Int "mo:base/Int";
 import Array "mo:base/Array";
@@ -5919,7 +5919,7 @@ actor {
 
 Create a logging system that can work both locally and in production:
 
-```motoko
+```js
 import Array "mo:base/Array";
 import Time "mo:base/Time";
 import Text "mo:base/Text";
@@ -5998,7 +5998,7 @@ actor Logger {
 
 When a canister traps, it's crucial to understand why. Implement comprehensive error handling:
 
-```motoko
+```js
 import Result "mo:base/Result";
 import Error "mo:base/Error";
 import Debug "mo:base/Debug";
@@ -6058,7 +6058,7 @@ actor {
 
 Create query functions to inspect canister state during debugging:
 
-```motoko
+```js
 actor {
     stable var userCount : Nat = 0;
     var cache = HashMap.HashMap<Text, Text>(10, Text.equal, Text.hash);
@@ -6098,7 +6098,7 @@ Following established best practices will help you write maintainable, secure, a
 
 **Modularization:**
 
-```motoko
+```js
 // types.mo - Centralize type definitions
 module Types {
     public type User = {
@@ -6157,7 +6157,7 @@ actor Main {
 
 #### 12.3.2 Stable Memory Management
 
-```motoko
+```js
 import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
 import Array "mo:base/Array";
@@ -6190,7 +6190,7 @@ actor {
 
 Always monitor and manage cycles proactively:
 
-```motoko
+```js
 import Cycles "mo:base/ExperimentalCycles";
 import Error "mo:base/Error";
 
@@ -6233,7 +6233,7 @@ actor {
 
 **Authentication and Authorization:**
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Result "mo:base/Result";
@@ -6301,7 +6301,7 @@ actor SecureCanister {
 
 **Input Validation:**
 
-```motoko
+```js
 module Validation {
     import Text "mo:base/Text";
     import Nat "mo:base/Nat";
@@ -6335,7 +6335,7 @@ module Validation {
 
 Choose the right data structure for your use case:
 
-```motoko
+```js
 import HashMap "mo:base/HashMap";
 import RBTree "mo:base/RBTree";
 import Buffer "mo:base/Buffer";
@@ -6358,7 +6358,7 @@ actor {
 
 #### 12.4.2 Minimize State Access
 
-```motoko
+```js
 actor {
     stable var largeState : [User] = [];
     
@@ -6389,7 +6389,7 @@ actor {
 
 #### 12.4.3 Batch Operations
 
-```motoko
+```js
 actor {
     // ❌ Bad - multiple separate calls
     public shared func addUser(user: User) : async () {
@@ -6412,7 +6412,7 @@ actor {
 
 #### 12.4.4 Query vs Update Calls
 
-```motoko
+```js
 actor {
     stable var counter : Nat = 0;
     var cache : Text = "";
@@ -6450,7 +6450,7 @@ actor {
 
 #### 12.5.1 Unit Testing with Motoko Test
 
-```motoko
+```js
 // test/utils.test.mo
 import Debug "mo:base/Debug";
 import { test; suite } "mo:test";
@@ -6505,7 +6505,7 @@ dfx stop
 
 #### 12.6.1 Integer Overflow/Underflow
 
-```motoko
+```js
 import Nat "mo:base/Nat";
 import Int "mo:base/Int";
 
@@ -6533,7 +6533,7 @@ actor {
 
 #### 12.6.2 Memory Leaks
 
-```motoko
+```js
 actor {
     // ❌ Bad - unbounded growth
     var logs : [Text] = [];
@@ -6557,7 +6557,7 @@ actor {
 
 #### 12.6.3 Upgrade Compatibility
 
-```motoko
+```js
 actor {
     // Version 1
     stable var users_v1 : [(Principal, Text)] = [];
@@ -6594,7 +6594,7 @@ actor {
 
 #### 12.7.1 Health Checks
 
-```motoko
+```js
 actor HealthMonitor {
     stable var lastHealthCheck : Int = 0;
     stable var healthStatus : Text = "OK";
@@ -6636,7 +6636,7 @@ actor HealthMonitor {
 
 #### 12.7.2 Metrics Collection
 
-```motoko
+```js
 actor Metrics {
     stable var requestCount : Nat = 0;
     stable var errorCount : Nat = 0;

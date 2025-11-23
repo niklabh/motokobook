@@ -20,7 +20,7 @@ To demonstrate these concepts in a production context, we will architect **OpenP
 
 This pattern is essential for verifying that the authentication flow is functioning correctly.
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 
 actor OpenPatron {
@@ -58,7 +58,7 @@ For storing user profiles in OpenPatron, we'll use `StableBTreeMap` from the bas
 
 Here's how to set it up:
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 import StableBTreeMap "mo:base/StableBTreeMap";
 import Text "mo:base/Text";
@@ -101,7 +101,7 @@ This allows users to register a profile associated with their Principal.
 
 To ensure only authenticated users can perform certain actions, check against the anonymous Principal.
 
-```motoko
+```js
 import Error "mo:base/Error";
 import Principal "mo:base/Principal";
 
@@ -122,7 +122,7 @@ public shared(msg) func createContent() : async () {
 
 In OpenPatron, users can have roles like 'patron', 'creator', or 'admin'. Extend the Profile type:
 
-```motoko
+```js
 type Role = { #Patron; #Creator; #Admin };
 
 type Profile = {
@@ -192,7 +192,7 @@ For anonymous access, create an actor with the anonymous identity.
 
 Putting it all together, here's a more complete actor for OpenPatron's identity system, incorporating profiles, roles, and access controls. We've added profile update and role assignment functions.
 
-```motoko
+```js
 import Principal "mo:base/Principal";
 import StableBTreeMap "mo:base/StableBTreeMap";
 import Text "mo:base/Text";
