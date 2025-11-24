@@ -4,6 +4,8 @@
 
 A comprehensive technical resource for building production-ready smart contracts and decentralized applications using Motoko on the Internet Computer Protocol (ICP).
 
+Book is available on amazon https://www.amazon.com/dp/B0G3M492G7
+
 ## 📖 About
 
 This book serves as the authoritative manual for **Motoko**, the domain-specific language designed by DFINITY to exploit the unique capabilities of the Internet Computer. Unlike fragmented blockchain architectures where smart contracts, storage, and frontend interfaces are decoupled, this guide teaches you to build truly autonomous, sovereign applications using ICP's unified "World Computer" model.
