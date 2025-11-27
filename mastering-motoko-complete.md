@@ -6605,7 +6605,7 @@ def test_fee_calculation_properties(amount, fee_percentage):
 
 ### 11.5 Debugging Techniques
 
-#### 9.5.1 Debug.print for Runtime Inspection
+#### 11.5.1 Debug.print for Runtime Inspection
 
 ```js
 import Debug "mo:base/Debug";
@@ -6627,7 +6627,7 @@ actor {
 
 Run with `dfx deploy` and view output in the terminal.
 
-#### 9.5.2 Canister Profiling
+#### 11.5.2 Canister Profiling
 
 Monitor canister performance:
 
