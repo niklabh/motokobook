@@ -63,7 +63,58 @@ init();
 
 This type-safe bridge ensures that if you change your Motoko API, your frontend build will fail until you update the client code.
 
-### 10.3 Certified Variables and Security
+### 10.3 Candid Interfaces
+
+Candid is the Interface Description Language (IDL) for the Internet Computer. It provides a standard way to describe canister interfaces, enabling type-safe communication between frontends and backends regardless of the programming language.
+
+#### Generation
+When you run `dfx build`, it automatically generates a Candid file (`.did`) from your Motoko code. This file describes all public functions, their parameters, and return types.
+
+#### Candid Types
+Candid defines a set of types that map to Motoko types:
+- Primitive: nat, int, bool, text, blob
+- Composite: vec (arrays), opt (options), record (objects), variant (unions)
+
+Example Candid for a function:
+```
+service : {
+  greet: (text) -> (text) query;
+}
+```
+This corresponds to a Motoko query function taking and returning Text.
+
+#### Viewing and Testing with Candid UI
+DFX deploys a Candid UI canister automatically. Access it at `http://localhost:4943?canisterId=<candid-ui-id>&id=<your-canister-id>` to get a web interface for calling your canister methods directly, with automatic type checking.
+
+#### Advanced Usage: Inter-canister Calls
+Candid enables safe calls between canisters. In Motoko, import another canister's interface using its Candid definition:
+
+```motoko
+import Other "canister:other_canister";
+
+await Other.someMethod(arg);
+```
+
+This ensures type-safe inter-canister communication.
+
+#### Usage in Frontend
+The generated TypeScript declarations use this Candid interface to provide type-safe bindings. Here's how to use it:
+
+```typescript
+// In your frontend code
+import { Actor, HttpAgent } from "@dfinity/agent";
+import { idlFactory } from "../../declarations/openpatron_backend/openpatron_backend.did.js"; // Generated Candid
+
+const agent = new HttpAgent();
+const backend = Actor.createActor(idlFactory, { agent, canisterId: "your-canister-id" });
+
+// Now call methods with type safety
+const profile = await backend.getProfile();
+```
+
+This ensures your frontend calls match the backend interface exactly.
+
+### 10.4 Certified Variables and Security
 
 When you visit a website like `google.com`, your browser checks the TLS certificate to ensure the server is authentic. On the Internet Computer, we don't rely on a central Certificate Authority (CA). Instead, we use **Chain Key Cryptography**.
 
@@ -104,7 +155,7 @@ actor {
 }
 ```
 
-### 10.4 Custom Domains
+### 10.5 Custom Domains
 
 While `ic0.app` domains are functional, production apps need custom domains (e.g., `openpatron.com`).
 
@@ -114,7 +165,7 @@ While `ic0.app` domains are functional, production apps need custom domains (e.g
 
 This process ensures that even with a custom domain, the Service Worker verification still protects your users.
 
-### 10.5 Summary
+### 10.6 Summary
 
 With the frontend deployed to an Asset Canister, OpenPatron is now a complete **dapp**:
 -   **Backend**: Motoko canister handling logic, data, and money.
