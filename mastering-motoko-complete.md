@@ -6253,7 +6253,7 @@ Professional engineering requires rigorous testing and dependency management. Th
 
 Early Motoko development relied on `vessel`, but the ecosystem has migrated to **Mops** (Motoko Package Manager). Mops creates a standard for publishing and importing community libraries (like `encoding`, `test`, or data structures).
 
-#### 9.1.1 Getting Started with Mops
+#### 11.1.1 Getting Started with Mops
 
 **Initial Setup:**
 
@@ -6282,7 +6282,7 @@ map = "9.0.1"
 moc = "0.11.1"
 ```
 
-#### 9.1.2 Using Dependencies in Code
+#### 11.1.2 Using Dependencies in Code
 
 Once dependencies are installed, import them using the `mo:` prefix:
 
@@ -6302,7 +6302,7 @@ actor {
 }
 ```
 
-#### 9.1.3 Publishing Your Own Package
+#### 11.1.3 Publishing Your Own Package
 
 Mops makes it easy to share reusable code with the community:
 
@@ -6324,7 +6324,7 @@ mops publish
 - **Type Safety**: Export well-typed public interfaces
 - **Testing**: Include test files demonstrating correct usage
 
-#### 9.1.4 Version Pinning and Reproducibility
+#### 11.1.4 Version Pinning and Reproducibility
 
 Mops generates a `mops.lock` file to ensure deterministic builds:
 
@@ -6347,7 +6347,7 @@ hash = "sha256:e5f6g7h8..."
 
 Testing on the Internet Computer requires different approaches than traditional web development. Canisters are stateful, asynchronous, and interact with other canisters, requiring sophisticated testing strategies.
 
-#### 9.2.1 Unit Testing Pure Functions
+#### 11.2.1 Unit Testing Pure Functions
 
 For pure Motoko functions (no state, no async), use the built-in `Debug.print` for simple assertions:
 
@@ -6394,7 +6394,7 @@ let suite = Suite.suite("Fee Calculation Tests", [
 Suite.run(suite);
 ```
 
-#### 9.2.2 Testing Actor Methods
+#### 11.2.2 Testing Actor Methods
 
 Testing actor methods requires a different approach since they're asynchronous and maintain state. Use `dfx` to deploy locally:
 
@@ -6416,7 +6416,7 @@ Unit testing Motoko functions is useful, but integration testing involving multi
 
 **PocketIC** is the industry-standard testing framework. It allows developers to write tests in Python or Rust that spin up a lightweight, deterministic instance of the Internet Computer. Unlike a full local replica, PocketIC allows for **Time Travel** (advancing the clock to test subscriptions) and inspecting the raw state of canisters.
 
-#### 9.3.1 Setting Up PocketIC
+#### 11.3.1 Setting Up PocketIC
 
 **Python Setup:**
 
@@ -6433,7 +6433,7 @@ pocket-ic = "3.0.0"
 candid = "0.10"
 ```
 
-#### 9.3.2 Basic PocketIC Test (Python)
+#### 11.3.2 Basic PocketIC Test (Python)
 
 ```python
 from pocket_ic import PocketIC
@@ -6484,7 +6484,7 @@ def test_deposit_and_withdrawal():
     assert balance == 50
 ```
 
-#### 9.3.3 Time Travel Testing
+#### 11.3.3 Time Travel Testing
 
 **Example PocketIC Scenario with Time Travel:**
 
@@ -6531,7 +6531,7 @@ def test_subscription_payment():
     assert user_balance == 90_000_000, "User balance should be reduced by subscription amount"
 ```
 
-#### 9.3.4 Multi-Canister Testing
+#### 11.3.4 Multi-Canister Testing
 
 Testing inter-canister calls is where PocketIC shines:
 
@@ -6643,7 +6643,7 @@ dfx canister status my_canister
 # Module hash: 0xabcd...
 ```
 
-#### 9.5.3 State Inspection
+#### 11.5.3 State Inspection
 
 PocketIC allows direct state inspection:
 
