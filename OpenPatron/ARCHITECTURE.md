@@ -478,3 +478,4 @@ const profile = await actor.getProfile();
 **Last Updated**: 2025  
 **Corresponds to**: Mastering Motoko - Chapters 5-12
 
+

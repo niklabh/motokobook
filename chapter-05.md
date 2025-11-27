@@ -211,6 +211,7 @@ actor OpenPatron {
     };
 
     stable var users : StableBTreeMap.StableBTreeMap<Principal, Profile> = StableBTreeMap.init(Principal.equal, Principal.hash);
+    stable var contents : StableBTreeMap.StableBTreeMap<Principal, [Text]> = StableBTreeMap.init(Principal.equal, Principal.hash);
 
     // Helper functions
     func requireAuthenticated(caller: Principal) {
@@ -307,8 +308,16 @@ actor OpenPatron {
     public shared(msg) func createContent(content: Text) : async () {
         requireAuthenticated(msg.caller);
         requireRole(msg.caller, #Creator);
-        // TODO: Implement content storage logic in later chapters
-        ignore content; // Placeholder
+        
+        switch (contents.get(msg.caller)) {
+            case (?userContents) {
+                let updated = Array.append(userContents, [content]);
+                contents.insert(msg.caller, updated);
+            };
+            case null {
+                contents.insert(msg.caller, [content]);
+            };
+        };
     };
 };
 

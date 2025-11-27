@@ -40,7 +40,8 @@ cat >> "$TEMP_FILE" << 'EOF'
 - **Chapter 7**: Autonomous Subscriptions via Timers
 - **Chapter 8**: Asynchronous Safety and Reentrancy
 - **Chapter 9**: External Integrations
-- **Chapter 11**: Frontend Integration & Asset Storage
+- **Chapter 10**: Frontend Integration & Asset Storage
+- **Chapter 11**: Ecosystem Tools and Testing
 - **Chapter 12**: The Economics of Deployment
 - **Chapter 13**: The Service Nervous System (SNS)
 - **Chapter 14**: Troubleshooting and Best Practices

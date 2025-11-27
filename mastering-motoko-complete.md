@@ -17,7 +17,8 @@
 - **Chapter 7**: Autonomous Subscriptions via Timers
 - **Chapter 8**: Asynchronous Safety and Reentrancy
 - **Chapter 9**: External Integrations
-- **Chapter 11**: Frontend Integration & Asset Storage
+- **Chapter 10**: Frontend Integration & Asset Storage
+- **Chapter 11**: Ecosystem Tools and Testing
 - **Chapter 12**: The Economics of Deployment
 - **Chapter 13**: The Service Nervous System (SNS)
 - **Chapter 14**: Troubleshooting and Best Practices
@@ -5364,6 +5365,7 @@ actor OpenPatron {
     };
 
     stable var users : StableBTreeMap.StableBTreeMap<Principal, Profile> = StableBTreeMap.init(Principal.equal, Principal.hash);
+    stable var contents : StableBTreeMap.StableBTreeMap<Principal, [Text]> = StableBTreeMap.init(Principal.equal, Principal.hash);
 
     // Helper functions
     func requireAuthenticated(caller: Principal) {
@@ -5460,8 +5462,16 @@ actor OpenPatron {
     public shared(msg) func createContent(content: Text) : async () {
         requireAuthenticated(msg.caller);
         requireRole(msg.caller, #Creator);
-        // TODO: Implement content storage logic in later chapters
-        ignore content; // Placeholder
+        
+        switch (contents.get(msg.caller)) {
+            case (?userContents) {
+                let updated = Array.append(userContents, [content]);
+                contents.insert(msg.caller, updated);
+            };
+            case null {
+                contents.insert(msg.caller, [content]);
+            };
+        };
     };
 };
 
@@ -6239,7 +6249,7 @@ We have built the application. Now, we must look at the ecosystem tools that wil
 
 Professional engineering requires rigorous testing and dependency management. The Motoko ecosystem has matured significantly, offering sophisticated tools for package management, testing, debugging, and continuous integration. This chapter explores the essential tools that transform Motoko development from experimental scripts into production-grade systems.
 
-### 9.1 Dependency Management with Mops
+### 11.1 Dependency Management with Mops
 
 Early Motoko development relied on `vessel`, but the ecosystem has migrated to **Mops** (Motoko Package Manager). Mops creates a standard for publishing and importing community libraries (like `encoding`, `test`, or data structures).
 
@@ -6333,7 +6343,7 @@ hash = "sha256:e5f6g7h8..."
 
 **Always commit `mops.lock` to version control** to ensure all team members and CI/CD pipelines use identical dependencies.
 
-### 9.2 Testing Strategies
+### 11.2 Testing Strategies
 
 Testing on the Internet Computer requires different approaches than traditional web development. Canisters are stateful, asynchronous, and interact with other canisters, requiring sophisticated testing strategies.
 
@@ -6400,7 +6410,7 @@ dfx canister call my_canister deposit '(100 : nat64)'
 dfx canister call my_canister getBalance '()'
 ```
 
-### 9.3 Integration Testing with PocketIC
+### 11.3 Integration Testing with PocketIC
 
 Unit testing Motoko functions is useful, but integration testing involving multiple canisters (OpenPatron + Ledger + Internet Identity) is critical.
 
@@ -6557,7 +6567,7 @@ def test_ledger_integration():
     assert balance == 1_000_000
 ```
 
-### 9.4 Property-Based Testing
+### 11.4 Property-Based Testing
 
 Property-based testing generates random inputs to verify that certain properties always hold:
 
@@ -6593,7 +6603,7 @@ def test_fee_calculation_properties(amount, fee_percentage):
     assert fee == expected_fee
 ```
 
-### 9.5 Debugging Techniques
+### 11.5 Debugging Techniques
 
 #### 9.5.1 Debug.print for Runtime Inspection
 
@@ -6654,7 +6664,7 @@ def test_inspect_canister_state():
     assert cycles > 0, "Canister should have cycles"
 ```
 
-### 9.6 Continuous Integration
+### 11.6 Continuous Integration
 
 Integrate PocketIC tests into CI/CD pipelines:
 
@@ -6694,7 +6704,7 @@ jobs:
         run: pytest tests/
 ```
 
-### 9.7 Best Practices
+### 11.7 Best Practices
 
 1. **Test Pyramid**: Write many unit tests, fewer integration tests, and even fewer end-to-end tests
 2. **Deterministic Tests**: Avoid flaky tests by using PocketIC's controlled environment
@@ -6722,7 +6732,7 @@ actor {
 }
 ```
 
-### 9.8 Performance Testing
+### 11.8 Performance Testing
 
 Load testing ensures your canister handles production traffic:
 

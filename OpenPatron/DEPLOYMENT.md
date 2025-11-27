@@ -399,3 +399,4 @@ dfx deploy --network ic openpatron --mode upgrade -vv
 **Last Updated**: 2025
 **OpenPatron Version**: 1.0.0
 
+

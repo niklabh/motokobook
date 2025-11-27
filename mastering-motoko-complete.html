@@ -601,22 +601,22 @@ id="toc-chapter-11-ecosystem-tools-and-testing">Chapter 11: Ecosystem
 Tools and Testing</a>
 <ul>
 <li><a href="#dependency-management-with-mops"
-id="toc-dependency-management-with-mops">9.1 Dependency Management with
+id="toc-dependency-management-with-mops">11.1 Dependency Management with
 Mops</a></li>
-<li><a href="#testing-strategies" id="toc-testing-strategies">9.2
+<li><a href="#testing-strategies" id="toc-testing-strategies">11.2
 Testing Strategies</a></li>
 <li><a href="#integration-testing-with-pocketic"
-id="toc-integration-testing-with-pocketic">9.3 Integration Testing with
+id="toc-integration-testing-with-pocketic">11.3 Integration Testing with
 PocketIC</a></li>
 <li><a href="#property-based-testing"
-id="toc-property-based-testing">9.4 Property-Based Testing</a></li>
-<li><a href="#debugging-techniques" id="toc-debugging-techniques">9.5
+id="toc-property-based-testing">11.4 Property-Based Testing</a></li>
+<li><a href="#debugging-techniques" id="toc-debugging-techniques">11.5
 Debugging Techniques</a></li>
 <li><a href="#continuous-integration"
-id="toc-continuous-integration">9.6 Continuous Integration</a></li>
-<li><a href="#best-practices-1" id="toc-best-practices-1">9.7 Best
+id="toc-continuous-integration">11.6 Continuous Integration</a></li>
+<li><a href="#best-practices-1" id="toc-best-practices-1">11.7 Best
 Practices</a></li>
-<li><a href="#performance-testing" id="toc-performance-testing">9.8
+<li><a href="#performance-testing" id="toc-performance-testing">11.8
 Performance Testing</a></li>
 </ul></li>
 <li><a href="#chapter-12-the-economics-of-deployment"
@@ -770,8 +770,9 @@ Protocol</li>
 <li><strong>Chapter 7</strong>: Autonomous Subscriptions via Timers</li>
 <li><strong>Chapter 8</strong>: Asynchronous Safety and Reentrancy</li>
 <li><strong>Chapter 9</strong>: External Integrations</li>
-<li><strong>Chapter 11</strong>: Frontend Integration &amp; Asset
+<li><strong>Chapter 10</strong>: Frontend Integration &amp; Asset
 Storage</li>
+<li><strong>Chapter 11</strong>: Ecosystem Tools and Testing</li>
 <li><strong>Chapter 12</strong>: The Economics of Deployment</li>
 <li><strong>Chapter 13</strong>: The Service Nervous System (SNS)</li>
 <li><strong>Chapter 14</strong>: Troubleshooting and Best Practices</li>
@@ -6011,106 +6012,115 @@ class="sourceCode js"><code class="sourceCode javascript"><span id="cb192-1"><a 
 <span id="cb192-16"><a href="#cb192-16" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
 <span id="cb192-17"><a href="#cb192-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb192-18"><a href="#cb192-18" aria-hidden="true" tabindex="-1"></a>    stable <span class="kw">var</span> <span class="dt">users</span> <span class="op">:</span> StableBTreeMap<span class="op">.</span><span class="at">StableBTreeMap</span><span class="op">&lt;</span>Principal<span class="op">,</span> Profile<span class="op">&gt;</span> <span class="op">=</span> StableBTreeMap<span class="op">.</span><span class="fu">init</span>(Principal<span class="op">.</span><span class="at">equal</span><span class="op">,</span> Principal<span class="op">.</span><span class="at">hash</span>)<span class="op">;</span></span>
-<span id="cb192-19"><a href="#cb192-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-20"><a href="#cb192-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Helper functions</span></span>
-<span id="cb192-21"><a href="#cb192-21" aria-hidden="true" tabindex="-1"></a>    func <span class="fu">requireAuthenticated</span>(<span class="dt">caller</span><span class="op">:</span> Principal) {</span>
-<span id="cb192-22"><a href="#cb192-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (Principal<span class="op">.</span><span class="fu">isAnonymous</span>(caller)) {</span>
-<span id="cb192-23"><a href="#cb192-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Anonymous access not allowed&quot;</span>)<span class="op">;</span></span>
-<span id="cb192-24"><a href="#cb192-24" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
-<span id="cb192-25"><a href="#cb192-25" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-26"><a href="#cb192-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-27"><a href="#cb192-27" aria-hidden="true" tabindex="-1"></a>    func <span class="fu">requireRole</span>(<span class="dt">caller</span><span class="op">:</span> Principal<span class="op">,</span> <span class="dt">required</span><span class="op">:</span> Role) {</span>
-<span id="cb192-28"><a href="#cb192-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(caller)) {</span>
-<span id="cb192-29"><a href="#cb192-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>profile) {</span>
-<span id="cb192-30"><a href="#cb192-30" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (profile<span class="op">.</span><span class="at">role</span> <span class="op">!=</span> required) {</span>
-<span id="cb192-31"><a href="#cb192-31" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Insufficient permissions&quot;</span>)<span class="op">;</span></span>
-<span id="cb192-32"><a href="#cb192-32" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
-<span id="cb192-33"><a href="#cb192-33" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
-<span id="cb192-34"><a href="#cb192-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
-<span id="cb192-35"><a href="#cb192-35" aria-hidden="true" tabindex="-1"></a>                <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;User not registered&quot;</span>)<span class="op">;</span></span>
-<span id="cb192-36"><a href="#cb192-36" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
-<span id="cb192-37"><a href="#cb192-37" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
-<span id="cb192-38"><a href="#cb192-38" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-39"><a href="#cb192-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-40"><a href="#cb192-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Whoami for testing</span></span>
-<span id="cb192-41"><a href="#cb192-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span> (msg) func <span class="fu">whoami</span>() <span class="op">:</span> <span class="kw">async</span> <span class="bu">Text</span> {</span>
-<span id="cb192-42"><a href="#cb192-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Principal<span class="op">.</span><span class="fu">toText</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
-<span id="cb192-43"><a href="#cb192-43" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-44"><a href="#cb192-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-45"><a href="#cb192-45" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Register new user</span></span>
-<span id="cb192-46"><a href="#cb192-46" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">register</span>(<span class="dt">username</span><span class="op">:</span> <span class="bu">Text</span><span class="op">,</span> <span class="dt">bio</span><span class="op">:</span> <span class="op">?</span><span class="bu">Text</span>) <span class="op">:</span> <span class="kw">async</span> Bool {</span>
-<span id="cb192-47"><a href="#cb192-47" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> caller <span class="op">=</span> msg<span class="op">.</span><span class="at">caller</span><span class="op">;</span></span>
-<span id="cb192-48"><a href="#cb192-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(caller)<span class="op">;</span></span>
-<span id="cb192-49"><a href="#cb192-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(caller)) {</span>
-<span id="cb192-50"><a href="#cb192-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>_) { <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> }<span class="op">;</span> <span class="co">// Already registered</span></span>
-<span id="cb192-51"><a href="#cb192-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
-<span id="cb192-52"><a href="#cb192-52" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> <span class="dt">profile</span> <span class="op">:</span> Profile <span class="op">=</span> {</span>
-<span id="cb192-53"><a href="#cb192-53" aria-hidden="true" tabindex="-1"></a>                    username<span class="op">;</span></span>
-<span id="cb192-54"><a href="#cb192-54" aria-hidden="true" tabindex="-1"></a>                    bio<span class="op">;</span></span>
-<span id="cb192-55"><a href="#cb192-55" aria-hidden="true" tabindex="-1"></a>                    role <span class="op">=</span> #Patron<span class="op">;</span> <span class="co">// Default role</span></span>
-<span id="cb192-56"><a href="#cb192-56" aria-hidden="true" tabindex="-1"></a>                    createdAt <span class="op">=</span> Time<span class="op">.</span><span class="fu">now</span>()<span class="op">;</span></span>
-<span id="cb192-57"><a href="#cb192-57" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
-<span id="cb192-58"><a href="#cb192-58" aria-hidden="true" tabindex="-1"></a>                users<span class="op">.</span><span class="fu">insert</span>(caller<span class="op">,</span> profile)<span class="op">;</span></span>
-<span id="cb192-59"><a href="#cb192-59" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb192-60"><a href="#cb192-60" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
-<span id="cb192-61"><a href="#cb192-61" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
-<span id="cb192-62"><a href="#cb192-62" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-63"><a href="#cb192-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-64"><a href="#cb192-64" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get own profile</span></span>
-<span id="cb192-65"><a href="#cb192-65" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">getProfile</span>() <span class="op">:</span> <span class="kw">async</span> <span class="op">?</span>Profile {</span>
-<span id="cb192-66"><a href="#cb192-66" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
-<span id="cb192-67"><a href="#cb192-67" aria-hidden="true" tabindex="-1"></a>        users<span class="op">.</span><span class="fu">get</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
-<span id="cb192-68"><a href="#cb192-68" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-69"><a href="#cb192-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-70"><a href="#cb192-70" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get profile by principal (public query, but could be restricted)</span></span>
-<span id="cb192-71"><a href="#cb192-71" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> query func <span class="fu">getProfileByPrincipal</span>(<span class="dt">p</span><span class="op">:</span> Principal) <span class="op">:</span> <span class="kw">async</span> <span class="op">?</span>Profile {</span>
-<span id="cb192-72"><a href="#cb192-72" aria-hidden="true" tabindex="-1"></a>        users<span class="op">.</span><span class="fu">get</span>(p)<span class="op">;</span></span>
-<span id="cb192-73"><a href="#cb192-73" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-74"><a href="#cb192-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-75"><a href="#cb192-75" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Update profile</span></span>
-<span id="cb192-76"><a href="#cb192-76" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">updateProfile</span>(<span class="dt">newUsername</span><span class="op">:</span> <span class="op">?</span><span class="bu">Text</span><span class="op">,</span> newBio<span class="op">:</span> <span class="op">?</span><span class="bu">Text</span>) <span class="op">:</span> <span class="kw">async</span> Bool {</span>
-<span id="cb192-77"><a href="#cb192-77" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> caller <span class="op">=</span> msg<span class="op">.</span><span class="at">caller</span><span class="op">;</span></span>
-<span id="cb192-78"><a href="#cb192-78" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(caller)<span class="op">;</span></span>
-<span id="cb192-79"><a href="#cb192-79" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(caller)) {</span>
-<span id="cb192-80"><a href="#cb192-80" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>profile) {</span>
-<span id="cb192-81"><a href="#cb192-81" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> <span class="dt">updated</span> <span class="op">:</span> Profile <span class="op">=</span> {</span>
-<span id="cb192-82"><a href="#cb192-82" aria-hidden="true" tabindex="-1"></a>                    username <span class="op">=</span> Option<span class="op">.</span><span class="fu">get</span>(newUsername<span class="op">,</span> profile<span class="op">.</span><span class="at">username</span>)<span class="op">;</span></span>
-<span id="cb192-83"><a href="#cb192-83" aria-hidden="true" tabindex="-1"></a>                    bio <span class="op">=</span> <span class="cf">if</span> (newBio <span class="op">==</span> <span class="kw">null</span>) { profile<span class="op">.</span><span class="at">bio</span> } <span class="cf">else</span> { newBio }<span class="op">;</span></span>
-<span id="cb192-84"><a href="#cb192-84" aria-hidden="true" tabindex="-1"></a>                    role <span class="op">=</span> profile<span class="op">.</span><span class="at">role</span><span class="op">;</span></span>
-<span id="cb192-85"><a href="#cb192-85" aria-hidden="true" tabindex="-1"></a>                    createdAt <span class="op">=</span> profile<span class="op">.</span><span class="at">createdAt</span><span class="op">;</span></span>
-<span id="cb192-86"><a href="#cb192-86" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
-<span id="cb192-87"><a href="#cb192-87" aria-hidden="true" tabindex="-1"></a>                users<span class="op">.</span><span class="fu">insert</span>(caller<span class="op">,</span> updated)<span class="op">;</span></span>
-<span id="cb192-88"><a href="#cb192-88" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb192-89"><a href="#cb192-89" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
-<span id="cb192-90"><a href="#cb192-90" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> { <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> }<span class="op">;</span></span>
-<span id="cb192-91"><a href="#cb192-91" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
-<span id="cb192-92"><a href="#cb192-92" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-93"><a href="#cb192-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-94"><a href="#cb192-94" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Assign role (admin only)</span></span>
-<span id="cb192-95"><a href="#cb192-95" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">assignRole</span>(<span class="dt">target</span><span class="op">:</span> Principal<span class="op">,</span> <span class="dt">newRole</span><span class="op">:</span> Role) <span class="op">:</span> <span class="kw">async</span> () {</span>
-<span id="cb192-96"><a href="#cb192-96" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
-<span id="cb192-97"><a href="#cb192-97" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireRole</span>(msg<span class="op">.</span><span class="at">caller</span><span class="op">,</span> #Admin)<span class="op">;</span></span>
-<span id="cb192-98"><a href="#cb192-98" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(target)) {</span>
-<span id="cb192-99"><a href="#cb192-99" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>profile) {</span>
-<span id="cb192-100"><a href="#cb192-100" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> <span class="dt">updated</span> <span class="op">:</span> Profile <span class="op">=</span> {</span>
-<span id="cb192-101"><a href="#cb192-101" aria-hidden="true" tabindex="-1"></a>                    profile <span class="cf">with</span> role <span class="op">=</span> newRole<span class="op">;</span></span>
-<span id="cb192-102"><a href="#cb192-102" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
-<span id="cb192-103"><a href="#cb192-103" aria-hidden="true" tabindex="-1"></a>                users<span class="op">.</span><span class="fu">insert</span>(target<span class="op">,</span> updated)<span class="op">;</span></span>
-<span id="cb192-104"><a href="#cb192-104" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
-<span id="cb192-105"><a href="#cb192-105" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
-<span id="cb192-106"><a href="#cb192-106" aria-hidden="true" tabindex="-1"></a>                <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Target user not registered&quot;</span>)<span class="op">;</span></span>
-<span id="cb192-107"><a href="#cb192-107" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
-<span id="cb192-108"><a href="#cb192-108" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
-<span id="cb192-109"><a href="#cb192-109" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-110"><a href="#cb192-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb192-111"><a href="#cb192-111" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Example protected function: Create content (creators only)</span></span>
-<span id="cb192-112"><a href="#cb192-112" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">createContent</span>(<span class="dt">content</span><span class="op">:</span> <span class="bu">Text</span>) <span class="op">:</span> <span class="kw">async</span> () {</span>
-<span id="cb192-113"><a href="#cb192-113" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
-<span id="cb192-114"><a href="#cb192-114" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireRole</span>(msg<span class="op">.</span><span class="at">caller</span><span class="op">,</span> #Creator)<span class="op">;</span></span>
-<span id="cb192-115"><a href="#cb192-115" aria-hidden="true" tabindex="-1"></a>        <span class="co">// </span><span class="al">TODO</span><span class="co">: Implement content storage logic in later chapters</span></span>
-<span id="cb192-116"><a href="#cb192-116" aria-hidden="true" tabindex="-1"></a>        ignore content<span class="op">;</span> <span class="co">// Placeholder</span></span>
-<span id="cb192-117"><a href="#cb192-117" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb192-118"><a href="#cb192-118" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<span id="cb192-19"><a href="#cb192-19" aria-hidden="true" tabindex="-1"></a>    stable <span class="kw">var</span> <span class="dt">contents</span> <span class="op">:</span> StableBTreeMap<span class="op">.</span><span class="at">StableBTreeMap</span><span class="op">&lt;</span>Principal<span class="op">,</span> [<span class="bu">Text</span>]<span class="op">&gt;</span> <span class="op">=</span> StableBTreeMap<span class="op">.</span><span class="fu">init</span>(Principal<span class="op">.</span><span class="at">equal</span><span class="op">,</span> Principal<span class="op">.</span><span class="at">hash</span>)<span class="op">;</span></span>
+<span id="cb192-20"><a href="#cb192-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-21"><a href="#cb192-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Helper functions</span></span>
+<span id="cb192-22"><a href="#cb192-22" aria-hidden="true" tabindex="-1"></a>    func <span class="fu">requireAuthenticated</span>(<span class="dt">caller</span><span class="op">:</span> Principal) {</span>
+<span id="cb192-23"><a href="#cb192-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (Principal<span class="op">.</span><span class="fu">isAnonymous</span>(caller)) {</span>
+<span id="cb192-24"><a href="#cb192-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Anonymous access not allowed&quot;</span>)<span class="op">;</span></span>
+<span id="cb192-25"><a href="#cb192-25" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb192-26"><a href="#cb192-26" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-27"><a href="#cb192-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-28"><a href="#cb192-28" aria-hidden="true" tabindex="-1"></a>    func <span class="fu">requireRole</span>(<span class="dt">caller</span><span class="op">:</span> Principal<span class="op">,</span> <span class="dt">required</span><span class="op">:</span> Role) {</span>
+<span id="cb192-29"><a href="#cb192-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(caller)) {</span>
+<span id="cb192-30"><a href="#cb192-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>profile) {</span>
+<span id="cb192-31"><a href="#cb192-31" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> (profile<span class="op">.</span><span class="at">role</span> <span class="op">!=</span> required) {</span>
+<span id="cb192-32"><a href="#cb192-32" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Insufficient permissions&quot;</span>)<span class="op">;</span></span>
+<span id="cb192-33"><a href="#cb192-33" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
+<span id="cb192-34"><a href="#cb192-34" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-35"><a href="#cb192-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
+<span id="cb192-36"><a href="#cb192-36" aria-hidden="true" tabindex="-1"></a>                <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;User not registered&quot;</span>)<span class="op">;</span></span>
+<span id="cb192-37"><a href="#cb192-37" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-38"><a href="#cb192-38" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb192-39"><a href="#cb192-39" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-40"><a href="#cb192-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-41"><a href="#cb192-41" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Whoami for testing</span></span>
+<span id="cb192-42"><a href="#cb192-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span> (msg) func <span class="fu">whoami</span>() <span class="op">:</span> <span class="kw">async</span> <span class="bu">Text</span> {</span>
+<span id="cb192-43"><a href="#cb192-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Principal<span class="op">.</span><span class="fu">toText</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
+<span id="cb192-44"><a href="#cb192-44" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-45"><a href="#cb192-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-46"><a href="#cb192-46" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Register new user</span></span>
+<span id="cb192-47"><a href="#cb192-47" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">register</span>(<span class="dt">username</span><span class="op">:</span> <span class="bu">Text</span><span class="op">,</span> <span class="dt">bio</span><span class="op">:</span> <span class="op">?</span><span class="bu">Text</span>) <span class="op">:</span> <span class="kw">async</span> Bool {</span>
+<span id="cb192-48"><a href="#cb192-48" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> caller <span class="op">=</span> msg<span class="op">.</span><span class="at">caller</span><span class="op">;</span></span>
+<span id="cb192-49"><a href="#cb192-49" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(caller)<span class="op">;</span></span>
+<span id="cb192-50"><a href="#cb192-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(caller)) {</span>
+<span id="cb192-51"><a href="#cb192-51" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>_) { <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> }<span class="op">;</span> <span class="co">// Already registered</span></span>
+<span id="cb192-52"><a href="#cb192-52" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
+<span id="cb192-53"><a href="#cb192-53" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> <span class="dt">profile</span> <span class="op">:</span> Profile <span class="op">=</span> {</span>
+<span id="cb192-54"><a href="#cb192-54" aria-hidden="true" tabindex="-1"></a>                    username<span class="op">;</span></span>
+<span id="cb192-55"><a href="#cb192-55" aria-hidden="true" tabindex="-1"></a>                    bio<span class="op">;</span></span>
+<span id="cb192-56"><a href="#cb192-56" aria-hidden="true" tabindex="-1"></a>                    role <span class="op">=</span> #Patron<span class="op">;</span> <span class="co">// Default role</span></span>
+<span id="cb192-57"><a href="#cb192-57" aria-hidden="true" tabindex="-1"></a>                    createdAt <span class="op">=</span> Time<span class="op">.</span><span class="fu">now</span>()<span class="op">;</span></span>
+<span id="cb192-58"><a href="#cb192-58" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
+<span id="cb192-59"><a href="#cb192-59" aria-hidden="true" tabindex="-1"></a>                users<span class="op">.</span><span class="fu">insert</span>(caller<span class="op">,</span> profile)<span class="op">;</span></span>
+<span id="cb192-60"><a href="#cb192-60" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb192-61"><a href="#cb192-61" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-62"><a href="#cb192-62" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb192-63"><a href="#cb192-63" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-64"><a href="#cb192-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-65"><a href="#cb192-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get own profile</span></span>
+<span id="cb192-66"><a href="#cb192-66" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">getProfile</span>() <span class="op">:</span> <span class="kw">async</span> <span class="op">?</span>Profile {</span>
+<span id="cb192-67"><a href="#cb192-67" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
+<span id="cb192-68"><a href="#cb192-68" aria-hidden="true" tabindex="-1"></a>        users<span class="op">.</span><span class="fu">get</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
+<span id="cb192-69"><a href="#cb192-69" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-70"><a href="#cb192-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-71"><a href="#cb192-71" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Get profile by principal (public query, but could be restricted)</span></span>
+<span id="cb192-72"><a href="#cb192-72" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> query func <span class="fu">getProfileByPrincipal</span>(<span class="dt">p</span><span class="op">:</span> Principal) <span class="op">:</span> <span class="kw">async</span> <span class="op">?</span>Profile {</span>
+<span id="cb192-73"><a href="#cb192-73" aria-hidden="true" tabindex="-1"></a>        users<span class="op">.</span><span class="fu">get</span>(p)<span class="op">;</span></span>
+<span id="cb192-74"><a href="#cb192-74" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-75"><a href="#cb192-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-76"><a href="#cb192-76" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Update profile</span></span>
+<span id="cb192-77"><a href="#cb192-77" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">updateProfile</span>(<span class="dt">newUsername</span><span class="op">:</span> <span class="op">?</span><span class="bu">Text</span><span class="op">,</span> newBio<span class="op">:</span> <span class="op">?</span><span class="bu">Text</span>) <span class="op">:</span> <span class="kw">async</span> Bool {</span>
+<span id="cb192-78"><a href="#cb192-78" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> caller <span class="op">=</span> msg<span class="op">.</span><span class="at">caller</span><span class="op">;</span></span>
+<span id="cb192-79"><a href="#cb192-79" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(caller)<span class="op">;</span></span>
+<span id="cb192-80"><a href="#cb192-80" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(caller)) {</span>
+<span id="cb192-81"><a href="#cb192-81" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>profile) {</span>
+<span id="cb192-82"><a href="#cb192-82" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> <span class="dt">updated</span> <span class="op">:</span> Profile <span class="op">=</span> {</span>
+<span id="cb192-83"><a href="#cb192-83" aria-hidden="true" tabindex="-1"></a>                    username <span class="op">=</span> Option<span class="op">.</span><span class="fu">get</span>(newUsername<span class="op">,</span> profile<span class="op">.</span><span class="at">username</span>)<span class="op">;</span></span>
+<span id="cb192-84"><a href="#cb192-84" aria-hidden="true" tabindex="-1"></a>                    bio <span class="op">=</span> <span class="cf">if</span> (newBio <span class="op">==</span> <span class="kw">null</span>) { profile<span class="op">.</span><span class="at">bio</span> } <span class="cf">else</span> { newBio }<span class="op">;</span></span>
+<span id="cb192-85"><a href="#cb192-85" aria-hidden="true" tabindex="-1"></a>                    role <span class="op">=</span> profile<span class="op">.</span><span class="at">role</span><span class="op">;</span></span>
+<span id="cb192-86"><a href="#cb192-86" aria-hidden="true" tabindex="-1"></a>                    createdAt <span class="op">=</span> profile<span class="op">.</span><span class="at">createdAt</span><span class="op">;</span></span>
+<span id="cb192-87"><a href="#cb192-87" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
+<span id="cb192-88"><a href="#cb192-88" aria-hidden="true" tabindex="-1"></a>                users<span class="op">.</span><span class="fu">insert</span>(caller<span class="op">,</span> updated)<span class="op">;</span></span>
+<span id="cb192-89"><a href="#cb192-89" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb192-90"><a href="#cb192-90" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-91"><a href="#cb192-91" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> { <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span> }<span class="op">;</span></span>
+<span id="cb192-92"><a href="#cb192-92" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb192-93"><a href="#cb192-93" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-94"><a href="#cb192-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-95"><a href="#cb192-95" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Assign role (admin only)</span></span>
+<span id="cb192-96"><a href="#cb192-96" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">assignRole</span>(<span class="dt">target</span><span class="op">:</span> Principal<span class="op">,</span> <span class="dt">newRole</span><span class="op">:</span> Role) <span class="op">:</span> <span class="kw">async</span> () {</span>
+<span id="cb192-97"><a href="#cb192-97" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
+<span id="cb192-98"><a href="#cb192-98" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireRole</span>(msg<span class="op">.</span><span class="at">caller</span><span class="op">,</span> #Admin)<span class="op">;</span></span>
+<span id="cb192-99"><a href="#cb192-99" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (users<span class="op">.</span><span class="fu">get</span>(target)) {</span>
+<span id="cb192-100"><a href="#cb192-100" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>profile) {</span>
+<span id="cb192-101"><a href="#cb192-101" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> <span class="dt">updated</span> <span class="op">:</span> Profile <span class="op">=</span> {</span>
+<span id="cb192-102"><a href="#cb192-102" aria-hidden="true" tabindex="-1"></a>                    profile <span class="cf">with</span> role <span class="op">=</span> newRole<span class="op">;</span></span>
+<span id="cb192-103"><a href="#cb192-103" aria-hidden="true" tabindex="-1"></a>                }<span class="op">;</span></span>
+<span id="cb192-104"><a href="#cb192-104" aria-hidden="true" tabindex="-1"></a>                users<span class="op">.</span><span class="fu">insert</span>(target<span class="op">,</span> updated)<span class="op">;</span></span>
+<span id="cb192-105"><a href="#cb192-105" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-106"><a href="#cb192-106" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
+<span id="cb192-107"><a href="#cb192-107" aria-hidden="true" tabindex="-1"></a>                <span class="cf">throw</span> <span class="bu">Error</span><span class="op">.</span><span class="fu">reject</span>(<span class="st">&quot;Target user not registered&quot;</span>)<span class="op">;</span></span>
+<span id="cb192-108"><a href="#cb192-108" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-109"><a href="#cb192-109" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb192-110"><a href="#cb192-110" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-111"><a href="#cb192-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb192-112"><a href="#cb192-112" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Example protected function: Create content (creators only)</span></span>
+<span id="cb192-113"><a href="#cb192-113" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">shared</span>(msg) func <span class="fu">createContent</span>(<span class="dt">content</span><span class="op">:</span> <span class="bu">Text</span>) <span class="op">:</span> <span class="kw">async</span> () {</span>
+<span id="cb192-114"><a href="#cb192-114" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireAuthenticated</span>(msg<span class="op">.</span><span class="at">caller</span>)<span class="op">;</span></span>
+<span id="cb192-115"><a href="#cb192-115" aria-hidden="true" tabindex="-1"></a>        <span class="fu">requireRole</span>(msg<span class="op">.</span><span class="at">caller</span><span class="op">,</span> #Creator)<span class="op">;</span></span>
+<span id="cb192-116"><a href="#cb192-116" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb192-117"><a href="#cb192-117" aria-hidden="true" tabindex="-1"></a>        <span class="cf">switch</span> (contents<span class="op">.</span><span class="fu">get</span>(msg<span class="op">.</span><span class="at">caller</span>)) {</span>
+<span id="cb192-118"><a href="#cb192-118" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> (<span class="op">?</span>userContents) {</span>
+<span id="cb192-119"><a href="#cb192-119" aria-hidden="true" tabindex="-1"></a>                <span class="kw">let</span> updated <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">append</span>(userContents<span class="op">,</span> [content])<span class="op">;</span></span>
+<span id="cb192-120"><a href="#cb192-120" aria-hidden="true" tabindex="-1"></a>                contents<span class="op">.</span><span class="fu">insert</span>(msg<span class="op">.</span><span class="at">caller</span><span class="op">,</span> updated)<span class="op">;</span></span>
+<span id="cb192-121"><a href="#cb192-121" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-122"><a href="#cb192-122" aria-hidden="true" tabindex="-1"></a>            <span class="cf">case</span> <span class="kw">null</span> {</span>
+<span id="cb192-123"><a href="#cb192-123" aria-hidden="true" tabindex="-1"></a>                contents<span class="op">.</span><span class="fu">insert</span>(msg<span class="op">.</span><span class="at">caller</span><span class="op">,</span> [content])<span class="op">;</span></span>
+<span id="cb192-124"><a href="#cb192-124" aria-hidden="true" tabindex="-1"></a>            }<span class="op">;</span></span>
+<span id="cb192-125"><a href="#cb192-125" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb192-126"><a href="#cb192-126" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb192-127"><a href="#cb192-127" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
 <p>This actor provides a solid foundation for OpenPatron’s identity
 system, ready to integrate with tokenomics in the next chapter.</p>
 <h3 id="testing-and-deployment">5.10 Testing and Deployment</h3>
@@ -6946,7 +6956,7 @@ sophisticated tools for package management, testing, debugging, and
 continuous integration. This chapter explores the essential tools that
 transform Motoko development from experimental scripts into
 production-grade systems.</p>
-<h3 id="dependency-management-with-mops">9.1 Dependency Management with
+<h3 id="dependency-management-with-mops">11.1 Dependency Management with
 Mops</h3>
 <p>Early Motoko development relied on <code>vessel</code>, but the
 ecosystem has migrated to <strong>Mops</strong> (Motoko Package
@@ -7030,7 +7040,7 @@ class="sourceCode toml"><code class="sourceCode toml"><span id="cb213-1"><a href
 <p><strong>Always commit <code>mops.lock</code> to version
 control</strong> to ensure all team members and CI/CD pipelines use
 identical dependencies.</p>
-<h3 id="testing-strategies">9.2 Testing Strategies</h3>
+<h3 id="testing-strategies">11.2 Testing Strategies</h3>
 <p>Testing on the Internet Computer requires different approaches than
 traditional web development. Canisters are stateful, asynchronous, and
 interact with other canisters, requiring sophisticated testing
@@ -7092,7 +7102,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb216-1"><a href
 <span id="cb216-7"><a href="#cb216-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Test via dfx command line</span></span>
 <span id="cb216-8"><a href="#cb216-8" aria-hidden="true" tabindex="-1"></a><span class="ex">dfx</span> canister call my_canister deposit <span class="st">&#39;(100 : nat64)&#39;</span></span>
 <span id="cb216-9"><a href="#cb216-9" aria-hidden="true" tabindex="-1"></a><span class="ex">dfx</span> canister call my_canister getBalance <span class="st">&#39;()&#39;</span></span></code></pre></div>
-<h3 id="integration-testing-with-pocketic">9.3 Integration Testing with
+<h3 id="integration-testing-with-pocketic">11.3 Integration Testing with
 PocketIC</h3>
 <p>Unit testing Motoko functions is useful, but integration testing
 involving multiple canisters (OpenPatron + Ledger + Internet Identity)
@@ -7237,7 +7247,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb221-1"><a 
 <span id="cb221-27"><a href="#cb221-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verify internal balance matches</span></span>
 <span id="cb221-28"><a href="#cb221-28" aria-hidden="true" tabindex="-1"></a>    balance <span class="op">=</span> pic.query_call(openpatron, user, <span class="st">&quot;getBalance&quot;</span>, encode([]))</span>
 <span id="cb221-29"><a href="#cb221-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> balance <span class="op">==</span> <span class="dv">1_000_000</span></span></code></pre></div>
-<h3 id="property-based-testing">9.4 Property-Based Testing</h3>
+<h3 id="property-based-testing">11.4 Property-Based Testing</h3>
 <p>Property-based testing generates random inputs to verify that certain
 properties always hold:</p>
 <div class="sourceCode" id="cb222"><pre
@@ -7270,7 +7280,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb222-1"><a 
 <span id="cb222-27"><a href="#cb222-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Property 3: Fee should match expected calculation</span></span>
 <span id="cb222-28"><a href="#cb222-28" aria-hidden="true" tabindex="-1"></a>    expected_fee <span class="op">=</span> (amount <span class="op">*</span> fee_percentage) <span class="op">//</span> <span class="dv">100</span></span>
 <span id="cb222-29"><a href="#cb222-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> fee <span class="op">==</span> expected_fee</span></code></pre></div>
-<h3 id="debugging-techniques">9.5 Debugging Techniques</h3>
+<h3 id="debugging-techniques">11.5 Debugging Techniques</h3>
 <h4 id="debug.print-for-runtime-inspection">9.5.1 Debug.print for
 Runtime Inspection</h4>
 <div class="sourceCode" id="cb223"><pre
@@ -7319,7 +7329,7 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb225-1"><a 
 <span id="cb225-12"><a href="#cb225-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get canister cycles balance</span></span>
 <span id="cb225-13"><a href="#cb225-13" aria-hidden="true" tabindex="-1"></a>    cycles <span class="op">=</span> pic.get_cycle_balance(canister)</span>
 <span id="cb225-14"><a href="#cb225-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> cycles <span class="op">&gt;</span> <span class="dv">0</span>, <span class="st">&quot;Canister should have cycles&quot;</span></span></code></pre></div>
-<h3 id="continuous-integration">9.6 Continuous Integration</h3>
+<h3 id="continuous-integration">11.6 Continuous Integration</h3>
 <p>Integrate PocketIC tests into CI/CD pipelines:</p>
 <p><strong>GitHub Actions Example:</strong></p>
 <div class="sourceCode" id="cb226"><pre
@@ -7354,7 +7364,7 @@ class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb226-1"><a href
 <span id="cb226-29"><a href="#cb226-29" aria-hidden="true" tabindex="-1"></a><span class="at">      </span></span>
 <span id="cb226-30"><a href="#cb226-30" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Run Tests</span></span>
 <span id="cb226-31"><a href="#cb226-31" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> pytest tests/</span></span></code></pre></div>
-<h3 id="best-practices-1">9.7 Best Practices</h3>
+<h3 id="best-practices-1">11.7 Best Practices</h3>
 <ol type="1">
 <li><strong>Test Pyramid</strong>: Write many unit tests, fewer
 integration tests, and even fewer end-to-end tests</li>
@@ -7386,7 +7396,7 @@ class="sourceCode js"><code class="sourceCode javascript"><span id="cb227-1"><a 
 <span id="cb227-14"><a href="#cb227-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">assert</span>(data<span class="op">.</span><span class="fu">size</span>() <span class="op">&gt;</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// Verify data persisted</span></span>
 <span id="cb227-15"><a href="#cb227-15" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
 <span id="cb227-16"><a href="#cb227-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<h3 id="performance-testing">9.8 Performance Testing</h3>
+<h3 id="performance-testing">11.8 Performance Testing</h3>
 <p>Load testing ensures your canister handles production traffic:</p>
 <div class="sourceCode" id="cb228"><pre
 class="sourceCode python"><code class="sourceCode python"><span id="cb228-1"><a href="#cb228-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> concurrent.futures</span>
